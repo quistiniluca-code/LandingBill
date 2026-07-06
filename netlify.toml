@@ -17,6 +17,12 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# Serve external Gmail-signature assets as static files before the application fallback.
+[[redirects]]
+  from = "/firma-gmail/*"
+  to = "/firma-gmail/:splat"
+  status = 200
+
 [[redirects]]
   from = "/grazie"
   to = "/index.html"
