@@ -11,137 +11,170 @@
 <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap" rel="stylesheet">
 <script src="/config.js"></script>
 <style>
-:root{--green:#043D00;--lime:#8DC63F;--white:#FFFFFF;--text:#043D00;--muted:#5D6E58;--soft:#F3FAEC;--line:rgba(4,61,0,.14);--shadow:0 18px 48px rgba(4,61,0,.12);--radius:28px}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--white);color:var(--text);font-family:Arimo,Arial,sans-serif}body{min-height:100svh}button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}.app{min-height:100svh;display:grid;grid-template-rows:auto 1fr auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(18px,4vw,40px);border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:10}.brandText{font-weight:700;letter-spacing:.08em;font-size:14px}.descriptor{font-size:12px;color:var(--muted)}.progressWrap{display:none;align-items:center;gap:12px;min-width:150px}.progressWrap.show{display:flex}.progress{height:7px;background:var(--soft);border-radius:999px;overflow:hidden;flex:1}.progress>i{display:block;height:100%;width:0;background:var(--lime);transition:width .2s ease}.progressLabel{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}.main{width:min(760px,calc(100% - 28px));margin:0 auto;display:grid;align-items:center;padding:28px 0 40px}.screen{display:none;animation:fade .18s ease}.screen.active{display:block}@keyframes fade{from{opacity:.45;transform:translateY(4px)}to{opacity:1;transform:none}}.hero{padding:28px 0}.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:18px}.dot{width:9px;height:9px;border-radius:50%;background:var(--lime)}h1,h2{margin:0;color:var(--green);letter-spacing:-.045em}h1{font-size:clamp(44px,8.4vw,72px);line-height:.95;max-width:690px}h1 .lime{color:var(--lime)}h2{font-size:clamp(30px,6vw,48px);line-height:1}.lead{font-size:clamp(18px,3.4vw,22px);line-height:1.45;color:var(--muted);margin:20px 0 26px;max-width:650px}.sub{font-size:16px;line-height:1.5;color:var(--muted);margin:14px 0 20px}.primary,.secondary,.choice,.contactChoice{border:0;border-radius:18px;font-weight:700}.primary{width:100%;background:var(--lime);color:var(--green);padding:17px 20px;font-size:18px}.primary:hover{filter:brightness(.98)}.primary:disabled{opacity:.45;cursor:not-allowed}.secondary{background:#fff;color:var(--green);border:1px solid var(--line);padding:14px 16px}.micro{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.45}.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:clamp(20px,4vw,32px);box-shadow:var(--shadow)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.gridAddress{display:grid;grid-template-columns:1fr 110px;gap:12px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.choice{background:#fff;border:1.5px solid var(--line);color:var(--green);padding:17px;text-align:left;font-size:16px}.choice.active{border-color:var(--lime);box-shadow:0 0 0 3px rgba(141,198,63,.18);background:var(--soft)}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--green)}.field input,.field select{width:100%;border:1.5px solid var(--line);border-radius:16px;background:#fff;color:var(--green);padding:15px 14px;min-height:54px;outline:none}.field input:focus,.field select:focus{border-color:var(--lime);box-shadow:0 0 0 3px rgba(141,198,63,.18)}.sectionLabel{font-size:13px;color:var(--muted);font-weight:700;margin-top:18px}.upload{display:grid;place-items:center;text-align:center;border:2px dashed rgba(141,198,63,.72);border-radius:22px;padding:24px;background:var(--soft);margin:16px 0;cursor:pointer}.upload strong{display:block;font-size:18px}.upload small{display:block;color:var(--muted);margin-top:5px}.fileMeta{display:none;padding:11px 12px;border-radius:14px;background:var(--soft);font-size:13px;margin-top:-7px;margin-bottom:12px}.fileMeta.show{display:block}.nav{display:flex;gap:10px;margin-top:22px}.nav .secondary{min-width:100px}.nav .primary{flex:1}.inlineConsent{display:flex;gap:10px;align-items:flex-start;margin:16px 0 0;padding:13px 14px;border-radius:16px;background:var(--soft);font-size:12px;color:var(--muted);line-height:1.45}.inlineConsent input{margin-top:2px;accent-color:var(--green)}.privacyNote{font-size:12px;color:var(--muted);line-height:1.45;margin:10px 2px 0}.saveHelp{min-height:18px;text-align:center;margin-top:9px;color:var(--muted);font-size:12px;font-weight:700}.resultBox{background:var(--green);color:#fff;border-radius:32px;padding:clamp(24px,5vw,38px);box-shadow:var(--shadow)}.resultKicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--lime)}.money{font-size:clamp(42px,9vw,70px);font-weight:700;letter-spacing:-.055em;line-height:.95;margin:12px 0 8px}.resultNote{font-size:13px;color:rgba(255,255,255,.76)}.leverGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.lever{border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:16px;background:rgba(255,255,255,.08)}.lever b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--lime)}.lever em{display:block;font-style:normal;font-size:13px;color:rgba(255,255,255,.72);margin-top:2px}.lever strong{display:block;font-size:22px;margin-top:8px}.lever span{display:block;font-size:12px;color:rgba(255,255,255,.72);margin-top:4px;line-height:1.35}.mainLever{margin-top:16px;padding:13px 15px;border-radius:16px;background:var(--lime);color:var(--green);font-weight:700}.assumption{font-size:12px;color:var(--muted);line-height:1.45;margin:14px 4px 0}.contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 14px}.contactChoice{padding:20px 18px;text-align:left;border:1.5px solid var(--line);background:#fff;color:var(--green)}.contactChoice.primaryChoice{background:var(--green);color:#fff;border-color:var(--green)}.contactChoice b{display:block;font-size:18px}.contactChoice span{display:block;font-size:12px;margin-top:5px;line-height:1.35;color:var(--muted)}.contactChoice.primaryChoice span{color:rgba(255,255,255,.74)}.fastBox{border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:14px;background:var(--soft)}.fastBox b{display:block;font-size:14px;margin-bottom:10px}.fastActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fastActions button{border:1px solid var(--line);background:#fff;color:var(--green);border-radius:14px;padding:13px 12px;font-weight:700}.noContact{width:100%;border:0;background:transparent;color:var(--muted);text-decoration:underline;padding:14px;margin-top:6px}.successMark{width:48px;height:48px;border-radius:50%;background:var(--lime);display:grid;place-items:center;color:var(--green);font-size:24px;font-weight:700;margin-bottom:18px}.footer{padding:18px 24px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);text-align:center}@media(max-width:620px){.descriptor{display:none}.topbar{padding:14px 16px}.main{padding-top:18px}.grid2,.gridAddress,.choices,.leverGrid,.contactGrid,.fastActions{grid-template-columns:1fr}.card{border-radius:22px}.hero{padding-top:12px}.nav{position:sticky;bottom:0;background:rgba(255,255,255,.97);padding-top:12px;padding-bottom:max(8px,env(safe-area-inset-bottom));z-index:5}}
+:root{
+  --green:#043D00;--lime:#8DC63F;--white:#FFFFFF;--soft:#F3FAEC;--hover:#075600;
+  --ink:#0F230D;--secondary:#31452E;--muted:#5D6E58;--error:#B2442D;
+  --line:rgba(4,61,0,.13);--line-strong:rgba(4,61,0,.22);--shadow:0 22px 64px rgba(4,61,0,.10);
+  --r-sm:16px;--r-lg:28px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--white);color:var(--ink);font-family:Arimo,Arial,sans-serif}
+body{min-height:100svh}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.app{min-height:100svh;display:grid;grid-template-rows:auto 1fr auto;background:#fff}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line)}
+.topbarInner{width:min(1120px,calc(100% - 32px));margin:auto;min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brandLockup{display:flex;align-items:center;gap:18px;min-width:0}.econLogo{width:138px;height:50px;object-fit:cover;object-position:center;display:block}.descriptor{font-size:12px;line-height:1.25;color:var(--muted);border-left:1px solid var(--line);padding-left:18px;white-space:nowrap}
+.progressWrap{display:none;align-items:center;gap:12px;min-width:180px}.progressWrap.show{display:flex}.progress{height:6px;background:var(--soft);border-radius:999px;overflow:hidden;flex:1}.progress>i{display:block;height:100%;width:0;background:var(--lime);transition:width .22s ease}.progressLabel{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}
+.main{width:min(1120px,calc(100% - 32px));margin:0 auto;display:grid;align-items:center;padding:34px 0 48px}.flowWidth{width:min(760px,100%);margin:auto}
+.screen{display:none;animation:fade .18s ease}.screen.active{display:block}@keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(340px,.82fr);gap:56px;align-items:center;min-height:610px}
+.heroCopy{padding:32px 0}.kicker{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:20px}.dot{width:9px;height:9px;border-radius:50%;background:var(--lime)}
+h1,h2{margin:0;color:var(--green);letter-spacing:-.04em}h1{font-size:clamp(48px,6.2vw,64px);line-height:.96;max-width:720px}h1 .lime{color:var(--lime)}h2{font-size:clamp(30px,4.5vw,40px);line-height:1.02;max-width:650px}
+.lead{font-size:clamp(18px,2vw,21px);line-height:1.52;color:var(--secondary);margin:22px 0 28px;max-width:650px}.micro{font-size:12px;color:var(--muted);line-height:1.45}.micro.center{text-align:center;margin-top:10px}
+.heroCtaWrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.primary,.secondary,.choice,.contactChoice{border:0;border-radius:var(--r-sm);font-weight:700;transition:.16s ease}.primary{background:var(--lime);color:var(--green);padding:16px 20px;font-size:17px;min-height:54px}.primary:hover{background:#B9F36C}.primary:focus-visible,.secondary:focus-visible,.choice:focus-visible,.contactChoice:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(141,198,63,.28);outline-offset:2px}.primary:disabled{opacity:.45;cursor:not-allowed}.hero .primary{min-width:250px}
+.secondary{background:#fff;color:var(--green);border:1px solid var(--line-strong);padding:14px 16px;min-height:50px}.secondary:hover{border-color:var(--green)}
+.heroSystem{position:relative;background:var(--green);color:#fff;border-radius:var(--r-lg);padding:32px;min-height:438px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;box-shadow:var(--shadow)}
+.heroSystem:before,.heroSystem:after{content:"";position:absolute;border:1px solid rgba(141,198,63,.28);border-radius:50%;pointer-events:none}.heroSystem:before{width:270px;height:270px;right:-120px;top:-80px}.heroSystem:after{width:170px;height:170px;right:-42px;top:-30px}.systemLabel{position:relative;z-index:1;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--lime);font-weight:700}.systemLines{position:relative;z-index:1;display:grid;gap:14px;margin:28px 0}.systemLine{padding:18px 0;border-top:1px solid rgba(255,255,255,.16)}.systemLine:last-child{border-bottom:1px solid rgba(255,255,255,.16)}.systemLine small{display:block;color:var(--lime);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.systemLine strong{display:block;font-size:27px;line-height:1.02;letter-spacing:-.035em;margin-top:7px}.systemLine span{display:block;color:rgba(255,255,255,.72);font-size:14px;line-height:1.4;margin-top:6px}.systemClaim{position:relative;z-index:1;color:rgba(255,255,255,.86);font-size:14px;line-height:1.45}.systemClaim b{color:#fff}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(24px,4vw,36px);box-shadow:var(--shadow)}
+.cardHead{padding-bottom:6px}.sub{font-size:16px;line-height:1.55;color:var(--secondary);margin:14px 0 22px;max-width:650px}.sectionLabel{font-size:13px;color:var(--muted);font-weight:700;margin-top:22px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.gridAddress{display:grid;grid-template-columns:1fr 120px;gap:14px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:12px;text-transform:uppercase;letter-spacing:.055em;font-weight:700;color:var(--green)}.field input,.field select{width:100%;border:1px solid var(--line-strong);border-radius:var(--r-sm);background:#fff;color:var(--ink);padding:15px 14px;min-height:54px;outline:none;font-size:16px}.field input::placeholder{color:#8B9A86}.field input:focus,.field select:focus{border-color:var(--green)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 0}.choice{background:#fff;border:1px solid var(--line-strong);color:var(--green);padding:16px 17px;text-align:left;font-size:16px;min-height:56px}.choice:hover{border-color:var(--green)}.choice.active{background:var(--green);border-color:var(--green);color:#fff}.choice.active:after{content:"✓";float:right;color:var(--lime);font-weight:700}
+.inlineConsent{display:flex;gap:10px;align-items:flex-start;margin:20px 0 0;padding:14px 15px;border-radius:var(--r-sm);background:var(--soft);font-size:12px;color:var(--muted);line-height:1.45}.inlineConsent input{margin-top:2px;accent-color:var(--green)}.privacyNote{font-size:11px;color:var(--muted);line-height:1.45;margin:10px 2px 0}.saveHelp{min-height:18px;text-align:center;margin-top:8px;color:var(--error);font-size:12px;font-weight:700}
+.upload{display:grid;place-items:center;text-align:center;border:1px dashed var(--green);border-radius:var(--r-sm);padding:24px;background:var(--soft);margin:16px 0;cursor:pointer}.upload:hover{background:#ECF7E1}.upload strong{display:block;font-size:17px;color:var(--green)}.upload small{display:block;color:var(--muted);margin-top:5px}.fileMeta{display:none;padding:11px 12px;border-radius:var(--r-sm);background:var(--soft);font-size:13px;margin-top:-7px;margin-bottom:12px}.fileMeta.show{display:block}
+.nav{display:flex;gap:10px;margin-top:26px}.nav .secondary{min-width:104px}.nav .primary{flex:1}
+.resultHero{background:var(--green);color:#fff;border-radius:var(--r-lg);padding:clamp(28px,5vw,42px);box-shadow:var(--shadow);position:relative;overflow:hidden}.resultHero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;border:1px solid rgba(141,198,63,.25);right:-90px;top:-95px}.resultKicker{position:relative;z-index:1;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--lime)}.money{position:relative;z-index:1;font-size:clamp(48px,8vw,68px);font-weight:700;letter-spacing:-.055em;line-height:.96;margin:12px 0 8px}.resultNote{position:relative;z-index:1;font-size:13px;color:rgba(255,255,255,.74)}
+.leverGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.lever{position:relative;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;background:#fff;box-shadow:0 14px 38px rgba(4,61,0,.06)}.lever:before{content:"";position:absolute;left:22px;top:0;width:54px;height:5px;border-radius:0 0 999px 999px;background:var(--lime)}.lever b{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--green)}.lever em{display:block;font-style:normal;font-size:14px;color:var(--muted);margin-top:3px}.lever strong{display:block;font-size:26px;color:var(--green);margin-top:16px;letter-spacing:-.03em}.lever span{display:block;font-size:13px;color:var(--secondary);margin-top:7px;line-height:1.45}.mainLever{margin-top:14px;padding:16px 18px;border-radius:var(--r-sm);background:var(--soft);color:var(--green);font-weight:700;line-height:1.4}.assumption{font-size:12px;color:var(--muted);line-height:1.5;margin:14px 4px 0}
+.contactIntro{max-width:620px}.contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 0}.contactChoice{padding:22px 20px;text-align:left;border:1px solid var(--line-strong);background:#fff;color:var(--green);min-height:126px}.contactChoice:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(4,61,0,.07)}.contactChoice.primaryChoice{background:var(--green);color:#fff;border-color:var(--green)}.contactChoice.altChoice{background:var(--lime);color:var(--green);border-color:var(--lime)}.contactChoice b{display:block;font-size:19px;letter-spacing:-.02em}.contactChoice span{display:block;font-size:13px;margin-top:7px;line-height:1.42;color:var(--muted)}.contactChoice.primaryChoice span{color:rgba(255,255,255,.72)}.contactChoice.altChoice span{color:rgba(4,61,0,.76)}
+.fastBox{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}.fastBox>b{display:block;font-size:14px;color:var(--green);margin-bottom:10px}.fastActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fastActions button{border:1px solid var(--line-strong);background:#fff;color:var(--green);border-radius:var(--r-sm);padding:14px 12px;font-weight:700;min-height:50px}.fastActions button:hover{border-color:var(--green)}.noContact{width:100%;border:0;background:transparent;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:14px;margin-top:8px}.successMark{width:48px;height:48px;border-radius:50%;background:var(--lime);display:grid;place-items:center;color:var(--green);font-size:24px;font-weight:700;margin-bottom:18px}
+.footer{border-top:1px solid var(--line);background:#fff}.footerInner{width:min(1120px,calc(100% - 32px));margin:auto;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:11px;color:var(--muted)}.footerClaim{font-weight:700;color:var(--green)}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:26px;min-height:auto;padding:30px 0 18px}.heroSystem{min-height:340px}.main{width:min(760px,calc(100% - 28px))}.topbarInner,.footerInner{width:min(760px,calc(100% - 28px))}}
+@media(max-width:620px){.topbarInner{min-height:68px}.econLogo{width:122px;height:44px}.descriptor{display:none}.progressWrap{min-width:132px}.main{padding:20px 0 34px}.heroCopy{padding:10px 0 0}.hero{gap:22px}.heroSystem{padding:24px;min-height:300px}.systemLine strong{font-size:23px}h1{font-size:clamp(40px,12vw,48px)}h2{font-size:clamp(28px,8.6vw,34px)}.heroCtaWrap{display:block}.hero .primary{width:100%;min-width:0}.heroCtaWrap .micro{margin-top:10px;text-align:center}.grid2,.gridAddress,.choices,.leverGrid,.contactGrid,.fastActions{grid-template-columns:1fr}.card{border-radius:22px;padding:22px}.lever,.resultHero{border-radius:22px}.nav{position:sticky;bottom:0;background:rgba(255,255,255,.97);padding-top:12px;padding-bottom:max(8px,env(safe-area-inset-bottom));z-index:5}.footerInner{display:block;padding:16px 0;line-height:1.6}.footerInner span{display:block}}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
-    <div><div class="brandText">ECON</div><div class="descriptor">Sistema Energia | Fotovoltaico</div></div>
-    <div class="progressWrap" id="progressWrap"><div class="progress"><i id="progressBar"></i></div><span class="progressLabel" id="progressLabel">1 / 5</span></div>
+    <div class="topbarInner">
+      <div class="brandLockup">
+        <img class="econLogo" src="/assets/econ-logo-primary.svg" alt="ECON">
+        <div class="descriptor">Sistema Energia | Fotovoltaico</div>
+      </div>
+      <div class="progressWrap" id="progressWrap"><div class="progress"><i id="progressBar"></i></div><span class="progressLabel" id="progressLabel">1 / 5</span></div>
+    </div>
   </header>
 
   <main class="main">
     <section class="screen active hero" data-screen="0">
-      <div class="kicker"><span class="dot"></span> Verifica preliminare energia</div>
-      <h1>SCONTO IN FATTURA?<br><span class="lime">NO. IN BOLLETTA.</span></h1>
-      <p class="lead">Scopri quanto puoi risparmiare comprando meglio l'energia e producendone una parte.</p>
-      <button class="primary" type="button" id="startBtn">OTTIENI IL RISPARMIO</button>
-      <div class="micro">Stima preliminare · circa 60 secondi</div>
-    </section>
-
-    <section class="screen" data-screen="1">
-      <div class="card">
-        <div class="kicker"><span class="dot"></span> 1 · Immobile</div>
-        <h2>Dove vuoi verificare il risparmio?</h2>
-        <p class="sub">Associamo subito la verifica all'immobile. Il cellulare serve a riconoscere la richiesta: <strong>non ti contatteremo senza una tua scelta finale.</strong></p>
-        <div class="gridAddress"><div class="field"><label for="street">Via</label><input id="street" autocomplete="street-address" placeholder="Es. Via Roma"></div><div class="field"><label for="civic">N. civico</label><input id="civic" autocomplete="address-line2" placeholder="12"></div></div>
-        <div class="grid2"><div class="field"><label for="municipality">Comune</label><input id="municipality" autocomplete="address-level2" placeholder="Es. Gorle"></div><div class="field"><label for="province">Provincia</label><input id="province" maxlength="2" autocapitalize="characters" placeholder="BG"></div></div>
-        <div class="field"><label for="phone">Cellulare</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Es. 333 123 4567"></div>
-        <div class="sectionLabel">Che tipo di utenza è?</div>
-        <div class="choices" id="profileChoices"><button type="button" class="choice" data-value="Casa singola">Casa singola</button><button type="button" class="choice" data-value="Appartamento">Appartamento</button><button type="button" class="choice" data-value="Condominio">Condominio</button><button type="button" class="choice" data-value="Attività / azienda">Attività / azienda</button></div>
-        <label class="inlineConsent"><input type="checkbox" id="verificationPrivacy"><span>Acconsento al trattamento dei dati per elaborare e conservare questa verifica energetica. La scelta se essere contattato e con quale canale avverrà solo alla fine.</span></label>
-        <div class="privacyNote">Preview V2: prima del lancio collegheremo qui l'informativa privacy definitiva.</div>
-        <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="intakeNext">CONTINUA</button></div>
-        <div class="saveHelp" id="intakeHelp"></div>
+      <div class="heroCopy">
+        <div class="kicker"><span class="dot"></span> Numeri prima delle promesse</div>
+        <h1>SCONTO IN FATTURA?<br><span class="lime">NO. IN BOLLETTA.</span></h1>
+        <p class="lead">Scopri quanto puoi risparmiare comprando meglio l'energia e producendone una parte.</p>
+        <div class="heroCtaWrap"><button class="primary" type="button" id="startBtn">OTTIENI IL RISPARMIO</button><div class="micro">Stima preliminare · circa 60 secondi</div></div>
       </div>
-    </section>
-
-    <section class="screen" data-screen="2">
-      <div class="card">
-        <div class="kicker"><span class="dot"></span> 2 · Bolletta</div>
-        <h2>Hai una bolletta disponibile?</h2>
-        <p class="sub">Con il documento rendiamo la verifica più precisa. Se non ce l'hai, puoi continuare lo stesso.</p>
-        <div class="choices" id="billChoices"><button type="button" class="choice" data-value="upload">Sì, la carico</button><button type="button" class="choice" data-value="manual">Non adesso</button></div>
-        <div id="uploadPanel" class="hidden">
-          <label class="upload" for="bill"><span><strong>Carica PDF o foto della bolletta</strong><small>PDF, JPG, PNG, WebP · max 7,5 MB</small></span></label>
-          <input class="hidden" id="bill" type="file" accept="application/pdf,image/*">
-          <div class="fileMeta" id="fileMeta"></div>
-          <p class="sub">In questa preview il file viene acquisito, ma la lettura automatica non è ancora attiva: completa anche i dati qui sotto.</p>
+      <aside class="heroSystem" aria-label="Le due leve della verifica ECON">
+        <div class="systemLabel">La tua energia · due leve</div>
+        <div class="systemLines">
+          <div class="systemLine"><small>01 · Bolletta</small><strong>Compra meglio.</strong><span>Verifichiamo il margine sull'energia che resta da acquistare.</span></div>
+          <div class="systemLine"><small>02 · Fotovoltaico</small><strong>Compra meno.</strong><span>Stimiamo quanta energia puoi evitare di comprare producendo.</span></div>
         </div>
-        <div id="spendPanel" class="hidden">
-          <div class="field"><label for="monthlyBand">Quanto spendi mediamente al mese?</label><select id="monthlyBand"><option value="">Seleziona</option><option value="45">Meno di 60 €</option><option value="80">60–100 €</option><option value="125">100–150 €</option><option value="200">150–250 €</option><option value="300">Oltre 250 €</option></select></div>
-          <div class="field"><label for="annualKwh">Consumo annuo, se lo conosci (kWh)</label><input id="annualKwh" type="number" inputmode="numeric" min="0" step="1" placeholder="Facoltativo"></div>
+        <div class="systemClaim"><b>Prima i tuoi numeri.</b><br>Poi la soluzione.</div>
+      </aside>
+    </section>
+
+    <div class="flowWidth">
+      <section class="screen" data-screen="1">
+        <div class="card">
+          <div class="cardHead"><div class="kicker"><span class="dot"></span> 1 · Immobile</div><h2>Dove vuoi verificare il risparmio?</h2><p class="sub">Associamo subito la verifica all'immobile. Il cellulare serve a riconoscere la richiesta: <strong>non ti contatteremo senza una tua scelta finale.</strong></p></div>
+          <div class="gridAddress"><div class="field"><label for="street">Via</label><input id="street" autocomplete="street-address" placeholder="Es. Via Roma"></div><div class="field"><label for="civic">N. civico</label><input id="civic" autocomplete="address-line2" placeholder="12"></div></div>
+          <div class="grid2"><div class="field"><label for="municipality">Comune</label><input id="municipality" autocomplete="address-level2" placeholder="Es. Gorle"></div><div class="field"><label for="province">Provincia</label><input id="province" maxlength="2" autocapitalize="characters" placeholder="BG"></div></div>
+          <div class="field"><label for="phone">Cellulare</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Es. 333 123 4567"></div>
+          <div class="sectionLabel">Che tipo di utenza è?</div>
+          <div class="choices" id="profileChoices"><button type="button" class="choice" data-value="Casa singola">Casa singola</button><button type="button" class="choice" data-value="Appartamento">Appartamento</button><button type="button" class="choice" data-value="Condominio">Condominio</button><button type="button" class="choice" data-value="Attività / azienda">Attività / azienda</button></div>
+          <label class="inlineConsent"><input type="checkbox" id="verificationPrivacy"><span>Acconsento al trattamento dei dati per elaborare e conservare questa verifica energetica. La scelta se essere contattato e con quale canale avverrà solo alla fine.</span></label>
+          <div class="privacyNote">Preview V2: prima del lancio collegheremo qui l'informativa privacy definitiva.</div>
+          <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="intakeNext">CONTINUA</button></div>
+          <div class="saveHelp" id="intakeHelp"></div>
         </div>
-        <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="energyNext">CONTINUA</button></div>
-      </div>
-    </section>
+      </section>
 
-    <section class="screen" data-screen="3">
-      <div class="card">
-        <div class="kicker"><span class="dot"></span> 3 · Produzione</div>
-        <h2>Quanto puoi evitare di comprare?</h2>
-        <p class="sub">Ci bastano tre risposte per stimare anche la leva fotovoltaica.</p>
-        <div class="sectionLabel">L'immobile è di tua proprietà?</div><div class="choices" id="ownerChoices"><button type="button" class="choice" data-value="Sì">Sì</button><button type="button" class="choice" data-value="No">No</button><button type="button" class="choice" data-value="Altro">Altro</button></div>
-        <div class="sectionLabel">Hai già il fotovoltaico?</div><div class="choices" id="pvChoices"><button type="button" class="choice" data-value="Sì">Sì</button><button type="button" class="choice" data-value="No">No</button></div>
-        <div id="roofBlock" class="hidden"><div class="sectionLabel">Hai un tetto o una copertura disponibile?</div><div class="choices" id="roofChoices"><button type="button" class="choice" data-value="Sì">Sì</button><button type="button" class="choice" data-value="Non so">Non so</button><button type="button" class="choice" data-value="No">No</button></div></div>
-        <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="profileNext">CALCOLA IL RISPARMIO</button></div>
-      </div>
-    </section>
+      <section class="screen" data-screen="2">
+        <div class="card">
+          <div class="cardHead"><div class="kicker"><span class="dot"></span> 2 · Bolletta</div><h2>Hai una bolletta disponibile?</h2><p class="sub">Con il documento rendiamo la verifica più precisa. Se non ce l'hai, puoi continuare lo stesso.</p></div>
+          <div class="choices" id="billChoices"><button type="button" class="choice" data-value="upload">Sì, la carico</button><button type="button" class="choice" data-value="manual">Non adesso</button></div>
+          <div id="uploadPanel" class="hidden">
+            <label class="upload" for="bill"><span><strong>Carica PDF o foto della bolletta</strong><small>PDF, JPG, PNG, WebP · max 7,5 MB</small></span></label>
+            <input class="hidden" id="bill" type="file" accept="application/pdf,image/*">
+            <div class="fileMeta" id="fileMeta"></div>
+            <p class="sub">In questa preview il file viene acquisito, ma la lettura automatica non è ancora attiva: completa anche i dati qui sotto.</p>
+          </div>
+          <div id="spendPanel" class="hidden">
+            <div class="field"><label for="monthlyBand">Quanto spendi mediamente al mese?</label><select id="monthlyBand"><option value="">Seleziona</option><option value="45">Meno di 60 €</option><option value="80">60–100 €</option><option value="125">100–150 €</option><option value="200">150–250 €</option><option value="300">Oltre 250 €</option></select></div>
+            <div class="field"><label for="annualKwh">Consumo annuo, se lo conosci (kWh)</label><input id="annualKwh" type="number" inputmode="numeric" min="0" step="1" placeholder="Facoltativo"></div>
+          </div>
+          <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="energyNext">CONTINUA</button></div>
+        </div>
+      </section>
 
-    <section class="screen" data-screen="4">
-      <div class="resultBox">
-        <div class="resultKicker">Il tuo potenziale di risparmio complessivo</div>
-        <div class="money" id="totalSaving">€ — / anno</div>
-        <div class="resultNote">stima preliminare · acquisto energia + produzione fotovoltaica</div>
+      <section class="screen" data-screen="3">
+        <div class="card">
+          <div class="cardHead"><div class="kicker"><span class="dot"></span> 3 · Produzione</div><h2>Quanto puoi evitare di comprare?</h2><p class="sub">Ci bastano tre risposte per stimare anche la leva fotovoltaica.</p></div>
+          <div class="sectionLabel">L'immobile è di tua proprietà?</div><div class="choices" id="ownerChoices"><button type="button" class="choice" data-value="Sì">Sì</button><button type="button" class="choice" data-value="No">No</button><button type="button" class="choice" data-value="Altro">Altro</button></div>
+          <div class="sectionLabel">Hai già il fotovoltaico?</div><div class="choices" id="pvChoices"><button type="button" class="choice" data-value="Sì">Sì</button><button type="button" class="choice" data-value="No">No</button></div>
+          <div id="roofBlock" class="hidden"><div class="sectionLabel">Hai un tetto o una copertura disponibile?</div><div class="choices" id="roofChoices"><button type="button" class="choice" data-value="Sì">Sì</button><button type="button" class="choice" data-value="Non so">Non so</button><button type="button" class="choice" data-value="No">No</button></div></div>
+          <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="profileNext">CALCOLA IL RISPARMIO</button></div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="4">
+        <div class="resultHero"><div class="resultKicker">Il tuo potenziale di risparmio complessivo</div><div class="money" id="totalSaving">€ — / anno</div><div class="resultNote">stima preliminare · acquisto energia + produzione fotovoltaica</div></div>
         <div class="leverGrid">
-          <div class="lever"><b>Bolletta</b><em>Compra meglio</em><strong id="purchaseSaving">€ —</strong><span>ottimizzazione stimata sull'energia che resta da acquistare dalla rete</span></div>
-          <div class="lever"><b>Fotovoltaico</b><em>Compra meno</em><strong id="pvSaving">€ —</strong><span id="pvSavingNote">risparmio stimato producendo una parte dell'energia che oggi acquisti</span></div>
+          <div class="lever"><b>Bolletta</b><em>Compra meglio</em><strong id="purchaseSaving">€ —</strong><span>Ottimizzazione stimata sull'energia che resta da acquistare dalla rete.</span></div>
+          <div class="lever"><b>Fotovoltaico</b><em>Compra meno</em><strong id="pvSaving">€ —</strong><span id="pvSavingNote">Risparmio stimato producendo una parte dell'energia che oggi acquisti.</span></div>
         </div>
         <div class="mainLever" id="mainLever">Stiamo individuando la leva principale.</div>
-      </div>
-      <p class="assumption">Il totale considera già entrambe le leve senza doppio conteggio: prima stimiamo l'energia prodotta e autoconsumata, poi applichiamo l'ottimizzazione ECON solo all'energia residua acquistata dalla rete. Autoconsumo FV preliminare 60–80%.</p>
-      <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="resultNext">CONTINUA</button></div>
-    </section>
+        <p class="assumption">Il totale considera già entrambe le leve senza doppio conteggio: prima stimiamo l'energia prodotta e autoconsumata, poi applichiamo l'ottimizzazione ECON solo all'energia residua acquistata dalla rete. Autoconsumo FV preliminare 60–80%.</p>
+        <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="resultNext">CONTINUA</button></div>
+      </section>
 
-    <section class="screen" data-screen="5">
-      <div class="card">
-        <div class="kicker"><span class="dot"></span> 4 · Fotovoltaico</div>
-        <h2>Se questi numeri fossero confermati, valuteresti il fotovoltaico?</h2>
-        <div class="choices" id="intentChoices"><button type="button" class="choice" data-value="YES">Sì</button><button type="button" class="choice" data-value="MAYBE">Potrei valutarlo</button><button type="button" class="choice" data-value="NO">No</button></div>
-        <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="intentNext">CONTINUA</button></div>
-      </div>
-    </section>
-
-    <section class="screen" data-screen="6">
-      <div class="card">
-        <div class="kicker"><span class="dot"></span> 5 · Verifica ECON</div>
-        <h2>Come preferisci verificare questi numeri?</h2>
-        <p class="sub">Il tuo cellulare è già associato alla verifica. Ora scegli semplicemente il canale più comodo.</p>
-        <div class="contactGrid">
-          <button type="button" class="contactChoice primaryChoice" data-contact="CALLBACK"><b>Telefonata</b><span>Ti richiamiamo noi al numero indicato.</span></button>
-          <button type="button" class="contactChoice" data-contact="WHATSAPP_INBOUND"><b>WhatsApp</b><span>Ti scriviamo noi, così rispondi quando preferisci.</span></button>
+      <section class="screen" data-screen="5">
+        <div class="card">
+          <div class="kicker"><span class="dot"></span> 4 · Fotovoltaico</div><h2>Se questi numeri fossero confermati, valuteresti il fotovoltaico?</h2>
+          <div class="choices" id="intentChoices"><button type="button" class="choice" data-value="YES">Sì</button><button type="button" class="choice" data-value="MAYBE">Potrei valutarlo</button><button type="button" class="choice" data-value="NO">No</button></div>
+          <div class="nav"><button type="button" class="secondary backBtn">Indietro</button><button type="button" class="primary" id="intentNext">CONTINUA</button></div>
         </div>
-        <div class="fastBox"><b>Vuoi fare prima? Contattaci tu.</b><div class="fastActions"><button type="button" data-contact="CALL_NOW">CHIAMA ECON ORA</button><button type="button" data-contact="WHATSAPP_NOW">APRI WHATSAPP</button></div></div>
-        <button type="button" class="noContact" data-contact="NONE">Per ora nessun contatto</button>
-        <div class="saveHelp" id="contactHelp"></div>
-        <div class="nav"><button type="button" class="secondary backBtn">Indietro</button></div>
-      </div>
-    </section>
+      </section>
 
-    <section class="screen" data-screen="7">
-      <div class="card">
-        <div class="successMark">✓</div>
-        <h2 id="successTitle">Verifica salvata.</h2>
-        <p class="sub" id="successCopy">Abbiamo registrato la tua scelta.</p>
-      </div>
-    </section>
+      <section class="screen" data-screen="6">
+        <div class="card">
+          <div class="contactIntro"><div class="kicker"><span class="dot"></span> 5 · Verifica ECON</div><h2>Come preferisci verificare questi numeri?</h2><p class="sub">Il tuo cellulare è già associato alla verifica. Ora scegli semplicemente il canale più comodo.</p></div>
+          <div class="contactGrid">
+            <button type="button" class="contactChoice primaryChoice" data-contact="CALLBACK"><b>Telefonata</b><span>Ti richiamiamo noi al numero indicato.</span></button>
+            <button type="button" class="contactChoice altChoice" data-contact="WHATSAPP_INBOUND"><b>WhatsApp</b><span>Ti scriviamo noi, così rispondi quando preferisci.</span></button>
+          </div>
+          <div class="fastBox"><b>Vuoi fare prima? Contattaci tu.</b><div class="fastActions"><button type="button" data-contact="CALL_NOW">CHIAMA ECON ORA</button><button type="button" data-contact="WHATSAPP_NOW">APRI WHATSAPP</button></div></div>
+          <button type="button" class="noContact" data-contact="NONE">Per ora nessun contatto</button>
+          <div class="saveHelp" id="contactHelp"></div>
+          <div class="nav"><button type="button" class="secondary backBtn">Indietro</button></div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="7">
+        <div class="card"><div class="successMark">✓</div><h2 id="successTitle">Verifica salvata.</h2><p class="sub" id="successCopy">Abbiamo registrato la tua scelta.</p></div>
+      </section>
+    </div>
 
     <form name="econ-intake-v2" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="hidden">
       <input type="hidden" name="form-name" value="econ-intake-v2"><input name="bot-field"><input name="session_id"><input name="created_at"><input name="source"><input name="format"><input name="wave"><input name="cluster"><input name="point_id"><input name="street"><input name="civic"><input name="municipality"><input name="province"><input name="phone"><input name="profile_type"><input name="verification_privacy">
     </form>
-
     <form name="econ-outcome-v2" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" class="hidden">
       <input type="hidden" name="form-name" value="econ-outcome-v2"><input name="bot-field"><input name="session_id"><input name="completed_at"><input name="source"><input name="format"><input name="wave"><input name="cluster"><input name="point_id"><input name="street"><input name="civic"><input name="municipality"><input name="province"><input name="phone"><input name="profile_type"><input name="owner_status"><input name="pv_existing"><input name="roof_available"><input name="bill_path"><input name="bill_file_uploaded"><input type="file" name="bolletta"><input name="annual_kwh"><input name="annual_spend"><input name="data_quality"><input name="purchase_saving_low"><input name="purchase_saving_high"><input name="pv_saving_low"><input name="pv_saving_high"><input name="total_saving_low"><input name="total_saving_high"><input name="calculation_version"><input name="benchmark_version"><input name="lead_type"><input name="fv_intent"><input name="contact_preference">
     </form>
-
     <form name="econ-events-v2" method="POST" data-netlify="true" class="hidden">
       <input type="hidden" name="form-name" value="econ-events-v2"><input name="event_name"><input name="session_id"><input name="ts"><input name="source"><input name="format"><input name="wave"><input name="cluster"><input name="point"><input name="step"><input name="payload">
     </form>
   </main>
 
-  <footer class="footer">Sistema Energia | Fotovoltaico · +39 378 309 1137 · econ-apex.com</footer>
+  <footer class="footer"><div class="footerInner"><span class="footerClaim">Sistemiamo l'energia.</span><span>Sistema Energia | Fotovoltaico · +39 378 309 1137 · econ-apex.com</span></div></footer>
 </div>
 <script>
 (function(){
@@ -180,11 +213,7 @@
     const fingerprint=JSON.stringify([d.street,d.civic,d.municipality,d.province,d.phone,d.profileType]);
     if(state.intakeSaved&&state.lastIntakeFingerprint===fingerprint){setScreen(2);return;}
     const btn=$('#intakeNext');btn.disabled=true;btn.textContent='SALVATAGGIO…';track('intake_submit_attempt');
-    try{
-      await postEncoded({'form-name':'econ-intake-v2',session_id:sessionId,created_at:new Date().toISOString(),source:attr.source,format:attr.format,wave:attr.wave,cluster:attr.cluster,point_id:attr.point,street:d.street,civic:d.civic,municipality:d.municipality,province:d.province,phone:d.phone,profile_type:d.profileType,verification_privacy:'yes'});
-      state.intakeSaved=true;state.lastIntakeFingerprint=fingerprint;track('intake_saved',{profile_type:d.profileType});setScreen(2);
-    }catch(e){$('#intakeHelp').textContent='Non siamo riusciti a salvare la verifica. Riprova.';track('intake_save_failed');}
-    finally{btn.disabled=false;btn.textContent='CONTINUA';}
+    try{await postEncoded({'form-name':'econ-intake-v2',session_id:sessionId,created_at:new Date().toISOString(),source:attr.source,format:attr.format,wave:attr.wave,cluster:attr.cluster,point_id:attr.point,street:d.street,civic:d.civic,municipality:d.municipality,province:d.province,phone:d.phone,profile_type:d.profileType,verification_privacy:'yes'});state.intakeSaved=true;state.lastIntakeFingerprint=fingerprint;track('intake_saved',{profile_type:d.profileType});setScreen(2);}catch(e){$('#intakeHelp').textContent='Non siamo riusciti a salvare la verifica. Riprova.';track('intake_save_failed');}finally{btn.disabled=false;btn.textContent='CONTINUA';}
   });
 
   setupChoice('#billChoices',(v)=>{state.billPath=v;$('#uploadPanel').classList.toggle('hidden',v!=='upload');$('#spendPanel').classList.remove('hidden');track('bill_path_selected',{path:v});});
@@ -196,54 +225,17 @@
   setupChoice('#roofChoices',v=>state.roofAvailable=v);
   $('#profileNext').addEventListener('click',()=>{if(!state.ownerStatus||!state.pvExisting||(state.pvExisting==='No'&&!state.roofAvailable)){alert('Completa le tre risposte.');return;}track('energy_profile_completed',{owner_status:state.ownerStatus,pv_existing:state.pvExisting,roof_available:state.roofAvailable});state.result=calculate();renderResult();track('savings_calculated',{lead_type:state.result.leadType,total_low:Math.round(state.result.totalLow),total_high:Math.round(state.result.totalHigh)});setScreen(4);track('savings_estimate_viewed',{lead_type:state.result.leadType});});
 
-  function calculate(){
-    const a=CONFIG.assumptions;let annualKwh=state.annualKwh;let annualSpend=state.annualSpend;
-    if(!annualKwh)annualKwh=annualSpend/a.fallbackAllInCostPerKwh;
-    if(!annualSpend)annualSpend=annualKwh*a.fallbackAllInCostPerKwh;
-    annualKwh=Math.max(800,annualKwh||2500);annualSpend=Math.max(annualKwh*.18,annualSpend||0);
-    const allIn=Math.min(.55,Math.max(.18,annualSpend/annualKwh));
-    const variable=Math.max(.14,Math.min(.38,allIn*a.variableCostShare));
-    const pvPossible=state.pvExisting==='No'&&state.ownerStatus==='Sì'&&state.roofAvailable!=='No'&&state.profileType!=='Appartamento';
-    const maxKwp=/Attività|azienda/i.test(state.profileType)?a.businessMaxKwp:a.residentialMaxKwp;
-    const kwp=pvPossible?Math.min(maxKwp,Math.max(a.minKwp,annualKwh/a.pvYieldKwhPerKwp)):0;
-    const production=kwp*a.pvYieldKwhPerKwp;
-    const scLow=pvPossible?Math.min(annualKwh,production*a.selfConsumptionLow):0;
-    const scHigh=pvPossible?Math.min(annualKwh,production*a.selfConsumptionHigh):0;
-    const residualHigh=Math.max(0,annualKwh-scLow),residualLow=Math.max(0,annualKwh-scHigh);
-    const purchaseDeltaLow=Math.max(0,variable-a.targetVariablePriceHigh),purchaseDeltaHigh=Math.max(0,variable-a.targetVariablePriceLow);
-    const purchaseLow=residualLow*purchaseDeltaLow,purchaseHigh=residualHigh*purchaseDeltaHigh;
-    const exportLow=Math.max(0,production-scHigh),exportHigh=Math.max(0,production-scLow);
-    const pvLow=scLow*variable+exportLow*a.cerValueLow,pvHigh=scHigh*variable+exportHigh*a.cerValueHigh;
-    const totalLow=purchaseLow+pvLow,totalHigh=purchaseHigh+pvHigh;
-    const billGood=purchaseHigh>=CONFIG.thresholds.billMeaningful,pvGood=pvHigh>=CONFIG.thresholds.pvMeaningful;
-    const leadType=billGood&&pvGood?'DUAL':pvGood?'FV':billGood?'BILL':'NURTURE';
-    return{annualKwh,annualSpend,allIn,variable,kwp,production,purchaseLow,purchaseHigh,pvLow,pvHigh,totalLow,totalHigh,leadType,pvPossible};
-  }
-  function renderResult(){const r=state.result;$('#totalSaving').textContent=rangeEuro(r.totalLow,r.totalHigh)+' / anno';$('#purchaseSaving').textContent=rangeEuro(r.purchaseLow,r.purchaseHigh)+' / anno';if(r.pvPossible){$('#pvSaving').textContent=rangeEuro(r.pvLow,r.pvHigh)+' / anno';$('#pvSavingNote').textContent='risparmio stimato producendo una parte dell’energia che oggi acquisti';}else{$('#pvSaving').textContent='Da verificare';$('#pvSavingNote').textContent=state.pvExisting==='Sì'?'impianto già presente: va verificato quanto produce e quanto autoconsumi':'con i dati attuali non stimiamo nuova produzione FV';}let msg='Il primo margine sembra essere sull’acquisto dell’energia.';if(r.pvHigh>r.purchaseHigh*1.4)msg='La leva principale nel tuo caso sembra essere produrre una parte dell’energia che oggi acquisti.';if(r.leadType==='DUAL')msg='Nel tuo caso comprare meglio e comprare meno possono lavorare insieme.';$('#mainLever').textContent=msg;}
+  function calculate(){const a=CONFIG.assumptions;let annualKwh=state.annualKwh;let annualSpend=state.annualSpend;if(!annualKwh)annualKwh=annualSpend/a.fallbackAllInCostPerKwh;if(!annualSpend)annualSpend=annualKwh*a.fallbackAllInCostPerKwh;annualKwh=Math.max(800,annualKwh||2500);annualSpend=Math.max(annualKwh*.18,annualSpend||0);const allIn=Math.min(.55,Math.max(.18,annualSpend/annualKwh));const variable=Math.max(.14,Math.min(.38,allIn*a.variableCostShare));const pvPossible=state.pvExisting==='No'&&state.ownerStatus==='Sì'&&state.roofAvailable!=='No'&&state.profileType!=='Appartamento';const maxKwp=/Attività|azienda/i.test(state.profileType)?a.businessMaxKwp:a.residentialMaxKwp;const kwp=pvPossible?Math.min(maxKwp,Math.max(a.minKwp,annualKwh/a.pvYieldKwhPerKwp)):0;const production=kwp*a.pvYieldKwhPerKwp;const scLow=pvPossible?Math.min(annualKwh,production*a.selfConsumptionLow):0;const scHigh=pvPossible?Math.min(annualKwh,production*a.selfConsumptionHigh):0;const residualHigh=Math.max(0,annualKwh-scLow),residualLow=Math.max(0,annualKwh-scHigh);const purchaseDeltaLow=Math.max(0,variable-a.targetVariablePriceHigh),purchaseDeltaHigh=Math.max(0,variable-a.targetVariablePriceLow);const purchaseLow=residualLow*purchaseDeltaLow,purchaseHigh=residualHigh*purchaseDeltaHigh;const exportLow=Math.max(0,production-scHigh),exportHigh=Math.max(0,production-scLow);const pvLow=scLow*variable+exportLow*a.cerValueLow,pvHigh=scHigh*variable+exportHigh*a.cerValueHigh;const totalLow=purchaseLow+pvLow,totalHigh=purchaseHigh+pvHigh;const billGood=purchaseHigh>=CONFIG.thresholds.billMeaningful,pvGood=pvHigh>=CONFIG.thresholds.pvMeaningful;const leadType=billGood&&pvGood?'DUAL':pvGood?'FV':billGood?'BILL':'NURTURE';return{annualKwh,annualSpend,allIn,variable,kwp,production,purchaseLow,purchaseHigh,pvLow,pvHigh,totalLow,totalHigh,leadType,pvPossible};}
+  function renderResult(){const r=state.result;$('#totalSaving').textContent=rangeEuro(r.totalLow,r.totalHigh)+' / anno';$('#purchaseSaving').textContent=rangeEuro(r.purchaseLow,r.purchaseHigh)+' / anno';if(r.pvPossible){$('#pvSaving').textContent=rangeEuro(r.pvLow,r.pvHigh)+' / anno';$('#pvSavingNote').textContent='Risparmio stimato producendo una parte dell’energia che oggi acquisti.';}else{$('#pvSaving').textContent='Da verificare';$('#pvSavingNote').textContent=state.pvExisting==='Sì'?'Impianto già presente: va verificato quanto produce e quanto autoconsumi.':'Con i dati attuali non stimiamo nuova produzione FV.';}let msg='Il primo margine sembra essere sull’acquisto dell’energia.';if(r.pvHigh>r.purchaseHigh*1.4)msg='La leva principale nel tuo caso sembra essere produrre una parte dell’energia che oggi acquisti.';if(r.leadType==='DUAL')msg='Nel tuo caso comprare meglio e comprare meno possono lavorare insieme.';$('#mainLever').textContent=msg;}
   $('#resultNext').addEventListener('click',()=>setScreen(5));
 
   setupChoice('#intentChoices',(v)=>{state.fvIntent=v;track('fv_intent_selected',{value:v});});
   $('#intentNext').addEventListener('click',()=>{if(!state.fvIntent){alert('Seleziona una risposta.');return;}setScreen(6);});
 
-  async function saveOutcome(preference){
-    state.contactPreference=preference;const d=intakeData(),r=state.result||{};const fd=new FormData();
-    fd.append('form-name','econ-outcome-v2');fd.append('session_id',sessionId);fd.append('completed_at',new Date().toISOString());fd.append('source',attr.source);fd.append('format',attr.format);fd.append('wave',attr.wave);fd.append('cluster',attr.cluster);fd.append('point_id',attr.point);fd.append('street',d.street);fd.append('civic',d.civic);fd.append('municipality',d.municipality);fd.append('province',d.province);fd.append('phone',d.phone);fd.append('profile_type',state.profileType);fd.append('owner_status',state.ownerStatus);fd.append('pv_existing',state.pvExisting);fd.append('roof_available',state.roofAvailable);fd.append('bill_path',state.billPath);fd.append('bill_file_uploaded',String(state.billFileUploaded));fd.append('annual_kwh',String(Math.round(r.annualKwh||state.annualKwh||0)));fd.append('annual_spend',String(Math.round(r.annualSpend||state.annualSpend||0)));fd.append('data_quality',state.dataQuality);fd.append('purchase_saving_low',String(Math.round(r.purchaseLow||0)));fd.append('purchase_saving_high',String(Math.round(r.purchaseHigh||0)));fd.append('pv_saving_low',String(Math.round(r.pvLow||0)));fd.append('pv_saving_high',String(Math.round(r.pvHigh||0)));fd.append('total_saving_low',String(Math.round(r.totalLow||0)));fd.append('total_saving_high',String(Math.round(r.totalHigh||0)));fd.append('calculation_version',CONFIG.calculationVersion||'');fd.append('benchmark_version',CONFIG.benchmarkVersion||'');fd.append('lead_type',r.leadType||'NURTURE');fd.append('fv_intent',state.fvIntent);fd.append('contact_preference',preference);const f=$('#bill').files[0];if(f)fd.append('bolletta',f,f.name);
-    const res=await fetch('/',{method:'POST',body:fd});if(!res.ok)throw new Error('outcome_failed');track('contact_preference_saved',{preference,lead_type:r.leadType||'NURTURE'});
-  }
+  async function saveOutcome(preference){state.contactPreference=preference;const d=intakeData(),r=state.result||{};const fd=new FormData();fd.append('form-name','econ-outcome-v2');fd.append('session_id',sessionId);fd.append('completed_at',new Date().toISOString());fd.append('source',attr.source);fd.append('format',attr.format);fd.append('wave',attr.wave);fd.append('cluster',attr.cluster);fd.append('point_id',attr.point);fd.append('street',d.street);fd.append('civic',d.civic);fd.append('municipality',d.municipality);fd.append('province',d.province);fd.append('phone',d.phone);fd.append('profile_type',state.profileType);fd.append('owner_status',state.ownerStatus);fd.append('pv_existing',state.pvExisting);fd.append('roof_available',state.roofAvailable);fd.append('bill_path',state.billPath);fd.append('bill_file_uploaded',String(state.billFileUploaded));fd.append('annual_kwh',String(Math.round(r.annualKwh||state.annualKwh||0)));fd.append('annual_spend',String(Math.round(r.annualSpend||state.annualSpend||0)));fd.append('data_quality',state.dataQuality);fd.append('purchase_saving_low',String(Math.round(r.purchaseLow||0)));fd.append('purchase_saving_high',String(Math.round(r.purchaseHigh||0)));fd.append('pv_saving_low',String(Math.round(r.pvLow||0)));fd.append('pv_saving_high',String(Math.round(r.pvHigh||0)));fd.append('total_saving_low',String(Math.round(r.totalLow||0)));fd.append('total_saving_high',String(Math.round(r.totalHigh||0)));fd.append('calculation_version',CONFIG.calculationVersion||'');fd.append('benchmark_version',CONFIG.benchmarkVersion||'');fd.append('lead_type',r.leadType||'NURTURE');fd.append('fv_intent',state.fvIntent);fd.append('contact_preference',preference);const f=$('#bill').files[0];if(f)fd.append('bolletta',f,f.name);const res=await fetch('/',{method:'POST',body:fd});if(!res.ok)throw new Error('outcome_failed');track('contact_preference_saved',{preference,lead_type:r.leadType||'NURTURE'});}
   function showSuccess(preference){const map={CALLBACK:['Richiesta di chiamata ricevuta.','ECON utilizzerà il numero associato alla verifica per ricontattarti.'],WHATSAPP_INBOUND:['Richiesta WhatsApp ricevuta.','ECON ti scriverà al numero associato alla verifica.'],NONE:['Verifica salvata.','Hai scelto di non essere contattato per ora. I dati restano associati alla verifica richiesta.']};const copy=map[preference]||['Verifica salvata.','Abbiamo registrato la tua scelta.'];$('#successTitle').textContent=copy[0];$('#successCopy').textContent=copy[1];setScreen(7);}
 
-  $$('[data-contact]').forEach(btn=>btn.addEventListener('click',async()=>{
-    const preference=btn.dataset.contact;$('#contactHelp').textContent='';const all=$$('[data-contact]');all.forEach(b=>b.disabled=true);track('contact_preference_selected',{preference});
-    try{
-      await saveOutcome(preference);
-      if(preference==='CALL_NOW'){track('call_now_intent');location.href='tel:+393783091137';return;}
-      if(preference==='WHATSAPP_NOW'){track('whatsapp_now_intent');const msg='Buongiorno ECON, ho appena completato la verifica energetica e vorrei approfondire la stima ottenuta. Riferimento: '+sessionId;location.href='https://wa.me/393783091137?text='+encodeURIComponent(msg);return;}
-      if(preference==='CALLBACK')track('callback_requested');
-      if(preference==='WHATSAPP_INBOUND')track('whatsapp_contact_requested');
-      if(preference==='NONE')track('no_contact_selected');
-      showSuccess(preference);
-    }catch(e){$('#contactHelp').textContent='Non siamo riusciti a registrare la scelta. Riprova.';track('outcome_save_failed',{preference});all.forEach(b=>b.disabled=false);}
-  }));
+  $$('[data-contact]').forEach(btn=>btn.addEventListener('click',async()=>{const preference=btn.dataset.contact;$('#contactHelp').textContent='';const all=$$('[data-contact]');all.forEach(b=>b.disabled=true);track('contact_preference_selected',{preference});try{await saveOutcome(preference);if(preference==='CALL_NOW'){track('call_now_intent');location.href='tel:+393783091137';return;}if(preference==='WHATSAPP_NOW'){track('whatsapp_now_intent');const msg='Buongiorno ECON, ho appena completato la verifica energetica e vorrei approfondire la stima ottenuta. Riferimento: '+sessionId;location.href='https://wa.me/393783091137?text='+encodeURIComponent(msg);return;}if(preference==='CALLBACK')track('callback_requested');if(preference==='WHATSAPP_INBOUND')track('whatsapp_contact_requested');if(preference==='NONE')track('no_contact_selected');showSuccess(preference);}catch(e){$('#contactHelp').textContent='Non siamo riusciti a registrare la scelta. Riprova.';track('outcome_save_failed',{preference});all.forEach(b=>b.disabled=false);}}));
 })();
 </script>
 </body>
