@@ -29,13 +29,10 @@ window.ECON_CONFIG = Object.freeze({
 function applyEconUiRevisions() {
   const privacyUrl = window.ECON_CONFIG && window.ECON_CONFIG.privacyUrl;
 
-  // Brand: logo only. Remove the descriptor requested for this campaign.
   document.querySelectorAll('.descriptor').forEach(function (el) {
     el.remove();
   });
 
-  // Result: keep outcome and commercial interpretation visible, but do not expose
-  // calculation mechanics, assumptions or component formulas in the interface.
   document.querySelectorAll('.assumption').forEach(function (el) {
     el.remove();
   });
@@ -49,7 +46,6 @@ function applyEconUiRevisions() {
     el.style.display = 'none';
   });
 
-  // Privacy link next to consent.
   const privacyCheckbox = document.getElementById('verificationPrivacy');
   const consent = privacyCheckbox && privacyCheckbox.closest('.inlineConsent');
   const privacyNote = consent && consent.nextElementSibling && consent.nextElementSibling.classList.contains('privacyNote')
@@ -66,7 +62,6 @@ function applyEconUiRevisions() {
     }
   }
 
-  // Footer: remove "Sistema Energia | Fotovoltaico" and retain only contact details + privacy.
   const footerLine = document.querySelector('.footer .footerInner span:last-child');
   if (footerLine) {
     footerLine.innerHTML = '+39 378 309 1137 · econ-apex.com';
@@ -86,14 +81,24 @@ function applyEconUiRevisions() {
   }
 }
 
+function loadPremergeFixes() {
+  if (document.querySelector('script[data-econ-premerge-fixes]')) return;
+  const fixes = document.createElement('script');
+  fixes.src = '/premerge-fixes.js';
+  fixes.defer = true;
+  fixes.dataset.econPremergeFixes = 'true';
+  document.head.appendChild(fixes);
+}
+
 document.addEventListener('DOMContentLoaded', applyEconUiRevisions);
 
-// Restore the flyer-aligned campaign layer and re-apply the campaign-specific
-// cleanup after it has loaded, so these revisions remain authoritative.
 (function () {
   const script = document.createElement('script');
   script.src = '/campaign-ui.js';
   script.defer = true;
-  script.onload = applyEconUiRevisions;
+  script.onload = function () {
+    applyEconUiRevisions();
+    loadPremergeFixes();
+  };
   document.head.appendChild(script);
 })();
