@@ -1,0 +1,33 @@
+name: Diagnose staged hero image chunks
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/diagnose-hero-chunks.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: hero-savings-57
+          fetch-depth: 0
+      - name: Record chunk hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          : > .tmp-hero/hashes.txt
+          for f in .tmp-hero/part-*; do
+            printf '%s=%s\n' "$(basename "$f")" "$(git hash-object "$f")" >> .tmp-hero/hashes.txt
+          done
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .tmp-hero/hashes.txt
+          git commit -m 'Record staged hero chunk hashes'
+          git push origin HEAD:hero-savings-57
