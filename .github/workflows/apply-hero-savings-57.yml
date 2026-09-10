@@ -2,8 +2,7 @@ name: Apply approved 57 percent savings visual
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - '.github/workflows/apply-hero-savings-57.yml'
 
@@ -40,17 +39,11 @@ jobs:
           if end < 0:
               raise SystemExit('Hero visual end not found')
           end += len('</aside>')
-          replacement = '''<aside class="flyerVisual premiumVisual heroSavingsReady" aria-label="Confronto della bolletta prima e dopo il risparmio">
-          <img class="heroSavingsVisual" src="https://drive.google.com/uc?export=view&id=1PiKJvWP8yahrYfxnCJj9ZE-_bUYBiST1&v=20260910-57" alt="Confronto della bolletta energia: da 162,35 euro a 69,81 euro, con un risparmio del 57% pari a 92,54 euro." width="720" height="540" decoding="async" fetchpriority="high">
-        </aside>'''
+          replacement = '<aside class="flyerVisual premiumVisual heroSavingsReady" aria-label="Confronto della bolletta prima e dopo il risparmio">\n          <img class="heroSavingsVisual" src="https://drive.google.com/uc?export=view&id=1PiKJvWP8yahrYfxnCJj9ZE-_bUYBiST1&v=20260910-57" alt="Confronto della bolletta energia: da 162,35 euro a 69,81 euro, con un risparmio del 57% pari a 92,54 euro." width="720" height="540" decoding="async" fetchpriority="high">\n        </aside>'
           s = s[:start] + replacement + s[end:]
-          css = '''
-/* Approved 57% savings hero: full-bleed PNG inside the dedicated box. */
-.heroSavingsReady{padding:0!important;overflow:hidden!important;background:#F3FAEC!important}
-.heroSavingsReady:before,.heroSavingsReady:after{display:none!important}
-.heroSavingsReady .heroSavingsVisual{display:block!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:cover!important;object-position:center!important;border-radius:inherit!important}
-'''
-          if '/* Approved 57% savings hero: full-bleed PNG inside the dedicated box. */' not in s:
+          marker_text = '/* Approved 57% savings hero: full-bleed PNG inside the dedicated box. */'
+          if marker_text not in s:
+              css = '\n' + marker_text + '\n.heroSavingsReady{padding:0!important;overflow:hidden!important;background:#F3FAEC!important}\n.heroSavingsReady:before,.heroSavingsReady:after{display:none!important}\n.heroSavingsReady .heroSavingsVisual{display:block!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:cover!important;object-position:center!important;border-radius:inherit!important}\n'
               marker = '</style>'
               idx = s.find(marker)
               if idx < 0:
@@ -59,7 +52,7 @@ jobs:
           p.write_text(s)
           PY
 
-      - name: Validate, clean bootstrap files and commit
+      - name: Validate and commit
         shell: bash
         run: |
           set -euo pipefail
@@ -72,8 +65,6 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git rm -f .github/workflows/apply-hero-savings-57.yml .github/workflows/diagnose-hero-chunks.yml 2>/dev/null || true
-          git rm -rf .tmp-hero 2>/dev/null || true
           git diff --cached --check
           git commit -m 'Use approved full-width 57% savings visual'
           git push origin HEAD:main
