@@ -6,7 +6,7 @@
 (function(){
 'use strict';
 
-const VERSION='bill-reader-1.0.0';
+const VERSION='bill-reader-2.0.0';
 const PDFJS_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
 const PDFJS_WORKER_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 const TESSERACT_URL='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
@@ -115,7 +115,7 @@ function applyParsedResult(result){
   const edit=document.createElement('button');edit.type='button';edit.className='billReaderEdit';edit.textContent='Controlla o correggi i dati';
   edit.addEventListener('click',()=>{showManual(true);const note=$('#billAccuracyNote');if(note)note.textContent='I valori sono stati precompilati dalla bolletta. Modificali solo se non corrispondono ai dati del documento.';});
   actions.appendChild(edit);
-  const privacy=document.createElement('span');privacy.className='billReaderPrivacy';privacy.textContent='Lettura automatica nel browser';actions.appendChild(privacy);
+  const privacy=document.createElement('span');privacy.className='billReaderPrivacy';privacy.textContent=readerPanel.dataset.localOnly==='1'?'Lettura locale · file non allegato':'Lettura automatica nel browser';actions.appendChild(privacy);
   readerPanel.dataset.result=JSON.stringify({version:VERSION,annualKwh:result.annualKwh||0,annualSpend:result.annualSpend||0,confidence:result.confidence,method:result.method});
   try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'bill_auto_read_success',bill_parse_method:result.method,bill_parse_confidence:result.confidence,annual_kwh:Math.round(result.annualKwh||0)});}catch(e){}
 }
@@ -191,6 +191,7 @@ function sumBandsNearContext(text,contextPattern){
 }
 
 function parseBillText(rawText){
+  if(window.EconBillParser&&typeof window.EconBillParser.parseBillText==='function')return window.EconBillParser.parseBillText(rawText);
   const text=flatText(rawText);
   const annualKwhPatterns=[
     /(?:consum[oi])\s+(?:annuo|annui|annuale|annuali)(?:\s+(?:totale|complessivo|di\s+energia))?[^0-9]{0,90}([0-9][0-9\s.,]{1,18})\s*kwh/ig,
@@ -314,7 +315,8 @@ billChoices.addEventListener('click',e=>{
 billInput.addEventListener('change',()=>{
   const f=billInput.files&&billInput.files[0];if(!f)return;
   const allowed=['application/pdf','image/jpeg','image/png','image/webp'];
-  if(!allowed.includes(f.type)||f.size>7.5*1024*1024)return;
+  if(!allowed.includes(f.type)||f.size>20*1024*1024)return;
+  readerPanel.dataset.localOnly=f.size>7.5*1024*1024?'1':'0';
   handleFile(f);
 });
 
