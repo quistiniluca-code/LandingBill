@@ -1,0 +1,80 @@
+name: Upgrade bill parser v2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/upgrade-bill-reader-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install parser core and regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tests
+          printf '%s' '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' | base64 -d | gzip -d > bill-parser-core.js
+          printf '%s' 'H4sICO7YomoCA2JpbGwtcGFyc2VyLWNvcnB1cy50ZXN0LmNqcwClVltu4zYU/c8qLgYFbHdkmpIsxVabAu4k0wadxEHsoB9FgdASLbOhxYxEzSQNAhTdRf+6gO6iO5mV9JKSLTmvDtofJxR5X+eee8hYZYUGVhQ81wc5f1+KnHc71brT+2ovtvvXLMcPzT4hg4WQsl9978cq5+SDR34pjEltE7OCFwc/7QHcZWzNo85M5SnPBIMEfcQYNMtKJjuO5jc66pzxXKhE4SYsmdZlzn4VKuPwrkylUOBRLyTwBj2XawVaaSY5JFzCdW1XG2kFo4A6Q7j6cYXnp6ezi5MpTE5PL6YQEJfuO0G1dXZ0fjw9nD44kjCYpKrQNmAAbDf8fDqfvDuC2dnRbGINJhG4JAjR6T58+v2vjnP1cRUFGIUETnHNsyRycZcE+/dOg8P3PGd18cCWmucYVXPIWZbyh2ioNOVaP0IlQhMJ1CXUJyY1wJVPCR2SJ3FqsGkhFoHnjZxROKqhqk1MYvibpkLlmTFB1wVPS55hjlvTTfiAVDi1wyMk3n7o+GHleF7lgHAUddnWenv+gXUEQ3fs+LTB00VvxA9rQHGX+LSN59H0FKZvzuGjyhORpf9GKOqC3DY1gD74Ox9eAG/ou07oV1UdS9CIU/wcasg1LGPo1WRrcsnFEhdrhFOZVNiWbcNHqWzohBUPvXbFh0qqtdACykxoWPAlzh98YLL8fP60I1sQKHZZa75eoKuXcYjA9/efIk0Xv/WQVoS6oTMcwVJkqmrugI4HldPW7MBsOpsfnV7MJ+BS1xmNTcsRkwEdDbyg79GBSwcbFDz0SYajmgQ7/Z/GWl2Xxe5I5Rxh5lm84ewWmHrsD4/h/PgtLk6OTufTDaFt6A0lt6tGR95O5vOL84kx8Fz6hMZEz7XaEEUkvBpCZkNZSIaoMU0kdBuOa4HaUZn/6XUceg4NmpEyUWoocQvHuI3nG5XyNbcjlasyS3gCkqF0PyPYLV5gfNOyzVhtFg1PWmfHJKC+47kvqw8S1Q9RGqyeQ7fukuvWRcpWlF6tFn6Ix9v1nEm8dXSZcBAZGAW45Sz/TLVoiGFDWqH1RgPqDT5faMELwloLjzMcWVOkghUTtXqY4y7qH6U7RdL9LRWbiL2tnmK7r1nKcFoD7OVw3NJL9ERbg/IzXsmoEN3qWtYxqGV1OffuEKTqa35QXeXE/vkW7/Y5wtLVMTHw4KUO9RuB4BOAyW5OyoItJHd0XuJPTAzUrztQrFQpE5QkqPY7bVN11T1hekXYokAHFZt++Ljqoznm3fv6wO6u2U0XFcSpvn6JuLg95/KLuzrIfQT85hrfD0hLA5fdwIP3DqRK47Ll+f7ShhfLbsfC0TEM0HHvhXxm5pzJyBpgTiaVp6PbE1V8+++jDKyvOocmZG6yRd4scXBRn745IOPHAJaFGTcTS4pYbN5Ktcajw/u9vcEAvitZnuRMyAjWKtMreQuaoT4s+wLH9mbDcViX2OJMmasC1qLQ7IpngJRAOD4osdVIE+mW1M+3TFUj8TQx6nkxFn//aYZmM7KVLiH75aff/sAs0HsEJxxlSvIndAACSneeCQslJd5DDNygegJgsTvM2+RFqpwP2W3h0GcPbanwwpmayUsmC26er7vAmjHLtWD42LXHga1RFDVK4gKLRBq8ar9sCrxTeVZq9gpEYSHHSry+7U5FGNI8qY1Xy5FnMP4Pd+XDIttR2qx8DMfOyYeQmJQVNlCqtHvZevmjeuR49UZIeqsoBKU21avX3v3g0RfQvNAF1o1REzMU/wD8rmU3ewwAAA==' | base64 -d | gzip -d > tests/bill-parser-corpus.test.cjs
+
+      - name: Patch browser integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def one(s, old, new, label):
+              n=s.count(old)
+              if n != 1:
+                  raise SystemExit(f'{label}: expected 1 occurrence, found {n}')
+              return s.replace(old,new,1)
+
+          r=Path('bill-reader.js')
+          s=r.read_text()
+          s=one(s,"const VERSION='bill-reader-1.0.0';","const VERSION='bill-reader-2.0.0';",'reader version')
+          s=one(s,"function parseBillText(rawText){\n  const text=flatText(rawText);","function parseBillText(rawText){\n  if(window.EconBillParser&&typeof window.EconBillParser.parseBillText==='function')return window.EconBillParser.parseBillText(rawText);\n  const text=flatText(rawText);",'parser delegation')
+          s=one(s,"if(!allowed.includes(f.type)||f.size>7.5*1024*1024)return;\n  handleFile(f);","if(!allowed.includes(f.type)||f.size>20*1024*1024)return;\n  readerPanel.dataset.localOnly=f.size>7.5*1024*1024?'1':'0';\n  handleFile(f);",'reader local file limit')
+          s=one(s,"privacy.textContent='Lettura automatica nel browser';","privacy.textContent=readerPanel.dataset.localOnly==='1'?'Lettura locale · file non allegato':'Lettura automatica nel browser';",'reader privacy note')
+          r.write_text(s)
+
+          p=Path('index.html')
+          s=p.read_text()
+          s=one(s,'PDF, JPG, PNG o WebP · max 7,5 MB','PDF, JPG, PNG o WebP · max 20 MB','upload copy')
+          s=one(s,'if(f.size>7.5*1024*1024){clearBillFile();status(\'#energyHelp\',\'File troppo pesante. Massimo 7,5 MB.\');return}','if(f.size>20*1024*1024){clearBillFile();status(\'#energyHelp\',\'File troppo pesante. Massimo 20 MB.\');return}','inline file limit')
+          s=one(s,"const f=$('#bill').files[0];if(f)fd.append('bolletta',f,f.name);","const f=$('#bill').files[0];if(f&&f.size<=7.5*1024*1024)fd.append('bolletta',f,f.name);",'Netlify attachment guard')
+          s=one(s,'<script src="/bill-reader.js?v=20260909-1"></script>','<script src="/bill-parser-core.js?v=20260910-2"></script>\n<script src="/bill-reader.js?v=20260910-2"></script>','script integration')
+          p.write_text(s)
+          PY
+
+      - name: Validate parser and integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check bill-parser-core.js
+          node --check bill-reader.js
+          node tests/bill-parser-corpus.test.cjs
+          grep -q 'bill-parser-core.js?v=20260910-2' index.html
+          grep -q 'f.size>20\*1024\*1024' index.html
+          grep -q "f&&f.size<=7.5\*1024\*1024" index.html
+          grep -q 'EconBillParser.parseBillText' bill-reader.js
+
+      - name: Commit upgrade
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html bill-reader.js bill-parser-core.js tests/bill-parser-corpus.test.cjs
+          git diff --cached --check
+          git commit -m 'Harden automatic bill parsing with real-bill corpus'
+          git push origin HEAD:main
