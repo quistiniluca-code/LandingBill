@@ -1,0 +1,86 @@
+name: Install approved 57% savings visual
+
+on:
+  push:
+    branches: [hero-savings-57]
+    paths:
+      - '.github/workflows/install-hero-savings-57.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: hero-savings-57
+          fetch-depth: 0
+
+      - name: Reconstruct approved PNG
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets
+          cat .tmp-hero/part-* | base64 -d > assets/econ-bolletta-prima-dopo-57.png
+          echo '07ddf456130700eefe734238ca79973322acb4994e2c056b898698835399e59e  assets/econ-bolletta-prima-dopo-57.png' | sha256sum -c -
+
+      - name: Replace hero visual
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p=Path('index.html')
+          s=p.read_text()
+          start=s.find('<aside class="flyerVisual premiumVisual" aria-label="Dalla bolletta alla produzione di energia">')
+          if start < 0:
+              raise SystemExit('Hero visual start not found')
+          end=s.find('</aside>', start)
+          if end < 0:
+              raise SystemExit('Hero visual end not found')
+          end += len('</aside>')
+
+          replacement='''<aside class="flyerVisual premiumVisual heroSavingsReady" aria-label="Confronto della bolletta prima e dopo il risparmio">
+          <img class="heroSavingsVisual" src="/assets/econ-bolletta-prima-dopo-57.png" alt="Confronto della bolletta energia: da 162,35 euro a 69,81 euro, con un risparmio del 57% pari a 92,54 euro." width="720" height="540" decoding="async" fetchpriority="high">
+        </aside>'''
+          s=s[:start]+replacement+s[end:]
+
+          css='''
+/* Approved 57% savings hero — single full-bleed visual. */
+.heroSavingsReady{padding:0!important;overflow:hidden!important;background:#F3FAEC!important}
+.heroSavingsReady:before,.heroSavingsReady:after{display:none!important}
+.heroSavingsReady .heroSavingsVisual{display:block!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:cover!important;object-position:center!important;border-radius:inherit!important}
+'''
+          marker='</style>'
+          idx=s.find(marker)
+          if idx < 0:
+              raise SystemExit('</style> not found')
+          s=s[:idx]+css+s[idx:]
+          p.write_text(s)
+          PY
+
+      - name: Validate integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'heroSavingsVisual' index.html
+          grep -q '/assets/econ-bolletta-prima-dopo-57.png' index.html
+          grep -q 'risparmio del 57%' index.html
+          if grep -q 'class="billSheet premiumBill"' index.html; then echo 'Old bill markup still present' >&2; exit 1; fi
+          if grep -q 'class="heroIllustrationHQ"' index.html; then echo 'Old hero illustration still present' >&2; exit 1; fi
+          test -s assets/econ-bolletta-prima-dopo-57.png
+          git diff --check
+
+      - name: Commit branch result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html assets/econ-bolletta-prima-dopo-57.png
+          git diff --cached --check
+          git commit -m 'Use approved full-width 57% savings visual'
+          git push origin HEAD:hero-savings-57
