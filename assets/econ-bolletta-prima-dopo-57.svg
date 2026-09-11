@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-labelledby="title desc">
+  <title id="title">Confronto bolletta prima e dopo</title>
+  <desc id="desc">Prima 162,35 euro, dopo 69,81 euro, risparmio 57 percento pari a 92,54 euro.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbfff8"/>
+      <stop offset="1" stop-color="#edf8e3"/>
+    </linearGradient>
+    <linearGradient id="arrow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b7dd78"/>
+      <stop offset="1" stop-color="#8dc63f"/>
+    </linearGradient>
+    <linearGradient id="poly" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dff1bc"/>
+      <stop offset="1" stop-color="#8dc63f"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#163c12" flood-opacity=".12"/>
+    </filter>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="720" height="540" rx="38" fill="url(#bg)"/>
+  <circle cx="670" cy="45" r="105" fill="none" stroke="#d9ead0" stroke-width="1.2"/>
+  <circle cx="670" cy="45" r="67" fill="none" stroke="#e7f1e2" stroke-width="1"/>
+  <ellipse cx="365" cy="465" rx="230" ry="34" fill="#b6d997" opacity=".16" filter="url(#soft)"/>
+
+  <!-- low-poly decorative mark -->
+  <g transform="translate(620 44)" opacity=".72">
+    <polygon points="0,-33 26,-18 33,9 15,31 -15,30 -34,9 -25,-19" fill="url(#poly)"/>
+    <polygon points="0,-33 6,-4 -25,-19" fill="#e9f6cc"/>
+    <polygon points="0,-33 26,-18 6,-4" fill="#d6ecaa"/>
+    <polygon points="26,-18 33,9 6,-4" fill="#badf78"/>
+    <polygon points="33,9 15,31 6,-4" fill="#9dce54"/>
+    <polygon points="15,31 -15,30 6,-4" fill="#b3d978"/>
+    <polygon points="-15,30 -34,9 6,-4" fill="#cee7a8"/>
+    <polygon points="-34,9 -25,-19 6,-4" fill="#dceebc"/>
+  </g>
+
+  <!-- transition curve -->
+  <path d="M155 382 C260 438 410 438 548 344" fill="none" stroke="#d5eab9" stroke-width="15" stroke-linecap="round" opacity=".65"/>
+  <path d="M158 380 C270 421 414 419 545 344" fill="none" stroke="url(#arrow)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M532 330 L560 333 L548 359" fill="none" stroke="#8dc63f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- PRIMA -->
+  <g transform="translate(91 125) rotate(-5 150 155)" filter="url(#shadow)">
+    <rect width="265" height="306" rx="22" fill="#ffffff" stroke="#dbe7d7" stroke-width="1.5"/>
+    <rect x="20" y="20" width="68" height="28" rx="14" fill="#eef2ed"/>
+    <text x="54" y="39" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#647363">PRIMA</text>
+    <text x="24" y="76" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing=".5" fill="#153c12">BOLLETTA ENERGIA</text>
+    <text x="24" y="113" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#7b8879">Totale da pagare</text>
+    <text x="24" y="154" font-family="Arial, Helvetica, sans-serif" font-size="37" font-weight="800" fill="#173c13">€162,35</text>
+    <line x1="24" y1="177" x2="238" y2="177" stroke="#dfe9dc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="24" y1="192" x2="211" y2="192" stroke="#dfe9dc" stroke-width="5" stroke-linecap="round"/>
+    <line x1="24" y1="209" x2="224" y2="209" stroke="#dfe9dc" stroke-width="5" stroke-linecap="round"/>
+    <g transform="translate(27 247)">
+      <rect x="0" y="23" width="17" height="21" rx="2" fill="#d5e0d2"/>
+      <rect x="25" y="14" width="17" height="30" rx="2" fill="#cbdac7"/>
+      <rect x="50" y="19" width="17" height="25" rx="2" fill="#d4dfd1"/>
+      <rect x="75" y="6" width="17" height="38" rx="2" fill="#bdcfb8"/>
+      <rect x="100" y="13" width="17" height="31" rx="2" fill="#c9d9c5"/>
+      <rect x="125" y="0" width="17" height="44" rx="2" fill="#aabfa4"/>
+    </g>
+  </g>
+
+  <!-- DOPO -->
+  <g transform="translate(371 105) rotate(4 140 165)" filter="url(#shadow)">
+    <rect width="273" height="321" rx="23" fill="#ffffff" stroke="#cfe3c5" stroke-width="1.5"/>
+    <rect x="20" y="20" width="66" height="28" rx="14" fill="#e8f5d9"/>
+    <text x="53" y="39" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#3f6d19">DOPO</text>
+    <text x="24" y="77" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing=".5" fill="#153c12">BOLLETTA ENERGIA</text>
+    <text x="24" y="114" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#7b8879">Totale da pagare</text>
+    <text x="24" y="158" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="800" fill="#043d00">€69,81</text>
+    <rect x="23" y="181" width="226" height="76" rx="17" fill="#eef8e5"/>
+    <text x="40" y="205" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#5c7254">RISPARMIO</text>
+    <text x="40" y="242" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="900" fill="#8dc63f">-57%</text>
+    <text x="141" y="235" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#31552a">€92,54</text>
+    <text x="141" y="251" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#73846d">in meno</text>
+    <line x1="24" y1="280" x2="242" y2="280" stroke="#dce9d6" stroke-width="4" stroke-linecap="round"/>
+    <line x1="24" y1="296" x2="207" y2="296" stroke="#e4eee0" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(256 445)">
+    <rect width="208" height="34" rx="17" fill="#043d00"/>
+    <circle cx="18" cy="17" r="5" fill="#8dc63f"/>
+    <text x="113" y="22" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#ffffff">Dal consumo al risparmio</text>
+  </g>
+</svg>
