@@ -1,0 +1,63 @@
+name: Self-host approved hero image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/selfhost-hero-image.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Fetch staged image chunks
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin hero-image-selfhost-fix
+          mkdir -p assets
+          for n in 00 01 02 03 04; do
+            git show origin/hero-image-selfhost-fix:.tmp-asset/q80-$n
+          done | base64 -d > assets/econ-bolletta-prima-dopo-57.webp
+          echo '0e0f74ec20f3db3c03e425bb7919ea698fb7abeb9a6cdf41d99e8561326d57c7  assets/econ-bolletta-prima-dopo-57.webp' | sha256sum -c -
+
+      - name: Point hero to local Netlify asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          old = 'https://drive.google.com/uc?export=view&id=1PiKJvWP8yahrYfxnCJj9ZE-_bUYBiST1&v=20260910-57'
+          new = '/assets/econ-bolletta-prima-dopo-57.webp?v=20260911-1'
+          if s.count(old) != 1:
+              raise SystemExit(f'Expected exactly one old hero URL, found {s.count(old)}')
+          s = s.replace(old, new, 1)
+          p.write_text(s)
+          PY
+          grep -q '/assets/econ-bolletta-prima-dopo-57.webp?v=20260911-1' index.html
+          ! grep -q 'drive.google.com/uc?export=view&id=1PiKJvWP8yahrYfxnCJj9ZE-_bUYBiST1' index.html
+          test -s assets/econ-bolletta-prima-dopo-57.webp
+          git diff --check
+
+      - name: Commit production fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html assets/econ-bolletta-prima-dopo-57.webp
+          git rm -f .github/workflows/selfhost-hero-image.yml
+          git diff --cached --check
+          git commit -m 'Self-host hero image for reliable mobile loading'
+          git push origin HEAD:main
