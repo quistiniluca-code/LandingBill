@@ -25,9 +25,9 @@ jobs:
           set -euo pipefail
           git fetch origin hero-image-selfhost-fix
           mkdir -p assets
-          for n in 00 01 02 03 04; do
+          for n in 00 01a 01b 02 03 04; do
             git show origin/hero-image-selfhost-fix:.tmp-asset/q80-$n
-          done | base64 -d > assets/econ-bolletta-prima-dopo-57.webp
+          done | tr -d '\r\n ' | base64 -d > assets/econ-bolletta-prima-dopo-57.webp
           echo '0e0f74ec20f3db3c03e425bb7919ea698fb7abeb9a6cdf41d99e8561326d57c7  assets/econ-bolletta-prima-dopo-57.webp' | sha256sum -c -
 
       - name: Point hero to local Netlify asset
