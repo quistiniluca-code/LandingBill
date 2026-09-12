@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/assets/econ-bolletta-prima-dopo-57-mobile.svg?v=20260912-1" type="image/svg+xml" media="(max-width:759px)">
+<link rel="preload" as="image" href="/assets/econ-bolletta-prima-dopo-57.svg?v=20260912-3" type="image/svg+xml" media="(min-width:760px)">
 <style>
 :root{
   --green:#043D00;--lime:#8DC63F;--white:#FFFFFF;--soft:#F3FAEC;--soft-2:#ECF7E1;
@@ -137,10 +139,13 @@ h1,h2{margin:0;color:var(--green);letter-spacing:-.043em}h1{font-size:clamp(38px
   .premiumBill{left:34px!important;bottom:60px!important;width:182px!important;height:224px!important}
 }
 
-/* Approved 57% savings hero: full-bleed PNG inside the dedicated box. */
-.heroSavingsReady{padding:0!important;overflow:hidden!important;background:#F3FAEC!important}
+/* Responsive savings hero: native vector artwork, no mobile rasterisation. */
+.heroSavingsReady{padding:0!important;overflow:hidden!important;background:#F3FAEC!important;aspect-ratio:4/3!important;height:auto!important;contain:paint}
 .heroSavingsReady:before,.heroSavingsReady:after{display:none!important}
-.heroSavingsReady .heroSavingsVisual{display:block!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:cover!important;object-position:center!important;border-radius:inherit!important}
+.heroSavingsReady .heroSavingsPicture{display:block!important;width:100%!important;height:100%!important}
+.heroSavingsReady .heroSavingsVisual{display:block!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:contain!important;object-position:center!important;border-radius:inherit!important;transform:none!important;filter:none!important;image-rendering:auto!important}
+@media(max-width:759px){.heroSavingsReady{border-radius:24px!important;box-shadow:0 10px 28px rgba(4,61,0,.08)!important}}
+@media(min-width:760px){.heroSavingsReady{aspect-ratio:4/3!important;height:auto!important}}
 </style>
 
 <script>
@@ -181,8 +186,11 @@ window.econStartFlow = function(){
     </div>
 
     <aside class="flyerVisual premiumVisual heroSavingsReady" aria-label="Confronto della bolletta prima e dopo il risparmio">
-          <img class="heroSavingsVisual" src="/assets/econ-bolletta-prima-dopo-57.svg?v=20260911-2" alt="Confronto della bolletta energia: da 162,35 euro a 69,81 euro, con un risparmio del 57% pari a 92,54 euro." width="720" height="540" decoding="async" fetchpriority="high">
-        </aside>
+      <picture class="heroSavingsPicture">
+        <source media="(max-width:759px)" srcset="/assets/econ-bolletta-prima-dopo-57-mobile.svg?v=20260912-1" type="image/svg+xml">
+        <img class="heroSavingsVisual" src="/assets/econ-bolletta-prima-dopo-57.svg?v=20260912-3" alt="Confronto della bolletta energia: da 162,35 euro a 69,81 euro, con un risparmio del 57% pari a 92,54 euro." width="720" height="540" decoding="async" fetchpriority="high">
+      </picture>
+    </aside>
 
     <div class="proofRow" aria-label="Caratteristiche della verifica"><div class="proof"><b>1 minuto</b><span>per iniziare</span></div><div class="proof"><b>2 leve</b><span>bolletta + FV</span></div><div class="proof"><b>Tu scegli</b><span>se essere contattato</span></div></div>
   </section>
