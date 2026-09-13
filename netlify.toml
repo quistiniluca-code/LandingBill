@@ -1,6 +1,6 @@
 [build]
   publish = "."
-  command = ""
+  command = "python3 .github/scripts/revise_funnel_v3.py"
 
 [build.environment]
   NODE_VERSION = "20"
