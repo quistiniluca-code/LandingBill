@@ -1,0 +1,42 @@
+name: Apply funnel v3 revisions
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-funnel-v3.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Apply revisions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/revise_funnel_v3.py
+          ! grep -q 'Hai un tetto o una copertura disponibile' index.html
+          ! grep -q 'Potrei valutarlo' index.html
+          ! grep -q 'roofAvailable\|roof_available\|fvIntent\|fv_intent' index.html
+          grep -q 'valuteresti il cambio bolletta?' index.html
+          grep -q 'bill_switch_intent' index.html
+          grep -q 'const billFloor=105;' index.html
+          git diff --check
+      - name: Commit changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git rm -f .github/scripts/revise_funnel_v3.py .github/workflows/apply-funnel-v3.yml
+          git diff --cached --check
+          git commit -m 'Simplify funnel and increase bill savings optimism'
+          git push origin HEAD:main
