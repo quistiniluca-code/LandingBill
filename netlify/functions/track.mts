@@ -1,4 +1,4 @@
-import { getStore } from "@netlify/blobs";
+import { getStore, getDeployStore } from "@netlify/blobs";
 
 const ALLOWED_EVENTS = new Set([
   "page_view",
@@ -10,6 +10,10 @@ const ALLOWED_EVENTS = new Set([
   "bill_file_uploaded",
   "bill_auto_read_success",
   "bill_auto_read_fallback",
+  "bill_document_archive_started",
+  "bill_document_archived",
+  "bill_document_archive_failed",
+  "data_db_saved",
   "energy_data_available",
   "energy_profile_completed",
   "savings_calculated",
@@ -41,6 +45,12 @@ function safePayload(input: unknown): Record<string, unknown> {
     else if (typeof value === "string") out[key] = safeText(value, 120);
   }
   return out;
+}
+
+function analyticsStore(context: any) {
+  return context?.deploy?.context === "production"
+    ? getStore("econ-funnel-events")
+    : getDeployStore("econ-funnel-events");
 }
 
 export default async (req: Request, context: any) => {
@@ -85,7 +95,7 @@ export default async (req: Request, context: any) => {
   };
 
   try {
-    const store = getStore("econ-funnel-events");
+    const store = analyticsStore(context);
     const unique = crypto.randomUUID();
     await store.setJSON(`events/${day}/${ts.getTime()}-${session.slice(0, 24)}-${unique}.json`, event);
   } catch (error) {
