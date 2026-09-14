@@ -75,6 +75,13 @@ export default async (req: Request, context: any) => {
       status = 'archived'
   `;
 
+  if (verificationId) {
+    await db.sql`
+      UPDATE verifications SET document_id = ${documentId}
+      WHERE verification_id = ${verificationId} AND session_id = ${sessionId}
+    `;
+  }
+
   return Response.json({ ok: true, document_id: documentId, sha256 });
 };
 
