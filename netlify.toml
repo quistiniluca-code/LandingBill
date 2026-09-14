@@ -1,6 +1,6 @@
 [build]
   publish = "."
-  command = "python3 .github/scripts/revise_funnel_v3.py"
+  command = "python3 .github/scripts/revise_funnel_v3.py && python3 .github/scripts/revise_analytics_v4.py"
 
 [build.environment]
   NODE_VERSION = "20"
@@ -16,6 +16,12 @@
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/dashboard"
+  [headers.values]
+    Cache-Control = "no-store"
+    X-Robots-Tag = "noindex, nofollow"
 
 # Serve external Gmail-signature assets as static files before the application fallback.
 [[redirects]]
