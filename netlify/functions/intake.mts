@@ -21,7 +21,7 @@ export default async (req: Request) => {
       profile_type, privacy_consent, source, format, wave, cluster, point_id,
       utm_source, utm_medium, utm_campaign
     ) VALUES (
-      ${sessionId}, COALESCE(${text(body.created_at, 40)}::timestamptz, NOW()), NOW(),
+      ${sessionId}, NOW(), NOW(),
       ${text(body.street)}, ${text(body.civic, 40)}, ${text(body.municipality, 120)},
       ${text(body.province, 8)}, ${text(body.phone, 40)}, ${text(body.profile_type, 80)},
       ${bool(body.verification_privacy)}, ${text(body.source, 100)}, ${text(body.format, 100)},
