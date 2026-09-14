@@ -6,10 +6,13 @@
 (function(){
 'use strict';
 
-const VERSION='bill-reader-2.0.0';
-const PDFJS_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-const PDFJS_WORKER_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-const TESSERACT_URL='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+const VERSION='bill-reader-2.1.0-selfhosted';
+const PDFJS_URL='/vendor/pdfjs/3.11.174/pdf.min.js';
+const PDFJS_WORKER_URL='/vendor/pdfjs/3.11.174/pdf.worker.min.js';
+const TESSERACT_URL='/vendor/tesseract/5.1.1/tesseract.min.js';
+const TESSERACT_WORKER_URL='/vendor/tesseract/5.1.1/worker.min.js';
+const TESSERACT_CORE_PATH='/vendor/tesseract-core/5.0.0';
+const TESSERACT_LANG_PATH='/vendor/tessdata/4.0.0';
 const MAX_TEXT_PAGES=10;
 const MAX_OCR_PAGES=4;
 const MIN_CONFIDENCE=.68;
@@ -89,6 +92,7 @@ function clearAutofill(){
 function fmtNumber(n,digits=0){return new Intl.NumberFormat('it-IT',{maximumFractionDigits:digits,minimumFractionDigits:digits}).format(n)}
 function fmtEuro(n){return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n)}
 function confidenceLabel(c){return c>=.9?'Alta':c>=.78?'Buona':'Stimata'}
+function trackReader(name,payload={}){try{if(typeof window.ECON_TRACK==='function'){window.ECON_TRACK(name,payload);return}window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:name,...payload})}catch(e){}}
 
 function applyParsedResult(result){
   clearAutofill();
@@ -117,7 +121,7 @@ function applyParsedResult(result){
   actions.appendChild(edit);
   const privacy=document.createElement('span');privacy.className='billReaderPrivacy';privacy.textContent=readerPanel.dataset.localOnly==='1'?'Lettura locale · file non allegato':'Lettura automatica nel browser';actions.appendChild(privacy);
   readerPanel.dataset.result=JSON.stringify({version:VERSION,annualKwh:result.annualKwh||0,annualSpend:result.annualSpend||0,confidence:result.confidence,method:result.method});
-  try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'bill_auto_read_success',bill_parse_method:result.method,bill_parse_confidence:result.confidence,annual_kwh:Math.round(result.annualKwh||0)});}catch(e){}
+  trackReader('bill_auto_read_success',{bill_parse_method:result.method,bill_parse_confidence:result.confidence,annual_kwh:Math.round(result.annualKwh||0)});
 }
 
 function applyParseFailure(reason){
@@ -126,7 +130,7 @@ function applyParseFailure(reason){
   $('#billReaderText').textContent+=(reason?' ':'')+'Inserisci sotto la fascia di spesa oppure il consumo annuo.';
   const note=$('#billAccuracyNote');if(note)note.textContent='Compila solo uno dei due dati: serve come fallback quando la bolletta non è leggibile automaticamente.';
   setEnergyStatus('La bolletta è stata caricata, ma la lettura automatica non è sufficientemente affidabile.');
-  try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'bill_auto_read_fallback'});}catch(e){}
+  trackReader('bill_auto_read_fallback');
 }
 
 function loadScript(src,id){
@@ -262,7 +266,8 @@ async function extractPdfText(file,generation){
 async function ocrSource(source,progressBase,progressSpan,generation,label){
   const T=await ensureTesseract();if(generation!==parseGeneration)throw new Error('cancelled');
   const logger=m=>{if(generation!==parseGeneration)return;if(m&&m.status==='recognizing text'&&Number.isFinite(m.progress))setReader('loading','Sto leggendo la bolletta',label||'Riconoscimento testo…',progressBase+Math.round(progressSpan*m.progress))};
-  try{return (await T.recognize(source,'ita',{logger})).data.text||''}catch(e){return (await T.recognize(source,'eng',{logger})).data.text||''}
+  const options={logger,workerPath:TESSERACT_WORKER_URL,corePath:TESSERACT_CORE_PATH,langPath:TESSERACT_LANG_PATH,gzip:true};
+  try{return (await T.recognize(source,'ita',options)).data.text||''}catch(e){return (await T.recognize(source,'eng',options)).data.text||''}
 }
 async function extractPdfWithOcr(pdf,generation){
   const pages=Math.min(pdf.numPages,MAX_OCR_PAGES),parts=[];
