@@ -19,7 +19,7 @@ if "fetch('/api/track'" not in s:
 
 if "window.ECON_TRACK=track" not in s:
     must(
-    "function track(name,payload={}){try{eventPost({'form-name':'econ-events-v2','bot_field':'',event_name:name,session_id:sessionId,ts:new Date().toISOString(),source:attr.source,format:attr.format,wave:attr.wave,cluster:attr.cluster,point:attr.point,utm_source:attr.utm_source,utm_medium:attr.utm_medium,utm_campaign:attr.utm_campaign,step:String(state.screen),payload:JSON.stringify(payload)});window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:name,...payload})}catch(e){}}",
+    "function track(name,payload={}){try{eventPost({'form-name':'econ-events-v2','bot-field':'',event_name:name,session_id:sessionId,ts:new Date().toISOString(),source:attr.source,format:attr.format,wave:attr.wave,cluster:attr.cluster,point:attr.point,utm_source:attr.utm_source,utm_medium:attr.utm_medium,utm_campaign:attr.utm_campaign,step:String(state.screen),payload:JSON.stringify(payload)});window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:name,...payload})}catch(e){}}",
     "function track(name,payload={}){try{eventPost({event_name:name,session_id:sessionId,ts:new Date().toISOString(),source:attr.source,format:attr.format,wave:attr.wave,cluster:attr.cluster,point:attr.point,utm_source:attr.utm_source,utm_medium:attr.utm_medium,utm_campaign:attr.utm_campaign,step:String(state.screen),payload});window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:name,...payload})}catch(e){}}\nwindow.ECON_TRACK=track;",
     'expose ECON track')
 
