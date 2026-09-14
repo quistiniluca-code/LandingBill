@@ -1,0 +1,103 @@
+name: Vendor OCR runtime
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/vendor-ocr-runtime.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  vendor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Download pinned browser runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p vendor/pdfjs/3.11.174 vendor/tesseract/5.1.1 vendor/tesseract-core/5.0.0 vendor/tessdata/4.0.0
+          curl --fail --location --retry 3 --silent --show-error https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js -o vendor/pdfjs/3.11.174/pdf.min.js
+          curl --fail --location --retry 3 --silent --show-error https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js -o vendor/pdfjs/3.11.174/pdf.worker.min.js
+          curl --fail --location --retry 3 --silent --show-error https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js -o vendor/tesseract/5.1.1/tesseract.min.js
+          curl --fail --location --retry 3 --silent --show-error https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js -o vendor/tesseract/5.1.1/worker.min.js
+          for f in tesseract-core.wasm.js tesseract-core-simd.wasm.js tesseract-core-lstm.wasm.js tesseract-core-simd-lstm.wasm.js; do
+            curl --fail --location --retry 3 --silent --show-error "https://cdn.jsdelivr.net/npm/tesseract.js-core@5.0.0/$f" -o "vendor/tesseract-core/5.0.0/$f"
+          done
+          curl --fail --location --retry 3 --silent --show-error https://tessdata.projectnaptha.com/4.0.0/ita.traineddata.gz -o vendor/tessdata/4.0.0/ita.traineddata.gz
+          curl --fail --location --retry 3 --silent --show-error https://tessdata.projectnaptha.com/4.0.0/eng.traineddata.gz -o vendor/tessdata/4.0.0/eng.traineddata.gz
+          test $(wc -c < vendor/pdfjs/3.11.174/pdf.min.js) -gt 250000
+          test $(wc -c < vendor/pdfjs/3.11.174/pdf.worker.min.js) -gt 900000
+          test $(wc -c < vendor/tesseract/5.1.1/tesseract.min.js) -gt 40000
+          test $(wc -c < vendor/tesseract/5.1.1/worker.min.js) -gt 80000
+          test $(wc -c < vendor/tessdata/4.0.0/ita.traineddata.gz) -gt 1000000
+          test $(wc -c < vendor/tessdata/4.0.0/eng.traineddata.gz) -gt 1000000
+          sha256sum vendor/pdfjs/3.11.174/* vendor/tesseract/5.1.1/* vendor/tesseract-core/5.0.0/* vendor/tessdata/4.0.0/* > vendor/SHA256SUMS.txt
+
+      - name: Point reader to first-party assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('bill-reader.js')
+          s=p.read_text(encoding='utf-8')
+          old="const VERSION='bill-reader-2.0.0';\nconst PDFJS_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';\nconst PDFJS_WORKER_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';\nconst TESSERACT_URL='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';"
+          new="const VERSION='bill-reader-2.1.0-selfhosted';\nconst PDFJS_URL='/vendor/pdfjs/3.11.174/pdf.min.js';\nconst PDFJS_WORKER_URL='/vendor/pdfjs/3.11.174/pdf.worker.min.js';\nconst TESSERACT_URL='/vendor/tesseract/5.1.1/tesseract.min.js';\nconst TESSERACT_WORKER_URL='/vendor/tesseract/5.1.1/worker.min.js';\nconst TESSERACT_CORE_PATH='/vendor/tesseract-core/5.0.0';\nconst TESSERACT_LANG_PATH='/vendor/tessdata/4.0.0';"
+          if old not in s: raise SystemExit('reader CDN constants anchor missing')
+          s=s.replace(old,new,1)
+          old2="const T=await ensureTesseract();if(generation!==parseGeneration)throw new Error('cancelled');\n  const logger=m=>{if(generation!==parseGeneration)return;if(m&&m.status==='recognizing text'&&Number.isFinite(m.progress))setReader('loading','Sto leggendo la bolletta',label||'Riconoscimento testo…',progressBase+Math.round(progressSpan*m.progress))};\n  try{return (await T.recognize(source,'ita',{logger})).data.text||''}catch(e){return (await T.recognize(source,'eng',{logger})).data.text||''}"
+          new2="const T=await ensureTesseract();if(generation!==parseGeneration)throw new Error('cancelled');\n  const logger=m=>{if(generation!==parseGeneration)return;if(m&&m.status==='recognizing text'&&Number.isFinite(m.progress))setReader('loading','Sto leggendo la bolletta',label||'Riconoscimento testo…',progressBase+Math.round(progressSpan*m.progress))};\n  const options={logger,workerPath:TESSERACT_WORKER_URL,corePath:TESSERACT_CORE_PATH,langPath:TESSERACT_LANG_PATH,gzip:true};\n  try{return (await T.recognize(source,'ita',options)).data.text||''}catch(e){return (await T.recognize(source,'eng',options)).data.text||''}"
+          if old2 not in s: raise SystemExit('OCR call anchor missing')
+          s=s.replace(old2,new2,1)
+          marker="function confidenceLabel(c){return c>=.9?'Alta':c>=.78?'Buona':'Stimata'}\n"
+          telemetry="function confidenceLabel(c){return c>=.9?'Alta':c>=.78?'Buona':'Stimata'}\nfunction trackReader(name,payload={}){try{if(typeof window.ECON_TRACK==='function'){window.ECON_TRACK(name,payload);return}window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:name,...payload})}catch(e){}}\n"
+          if marker not in s: raise SystemExit('telemetry helper anchor missing')
+          s=s.replace(marker,telemetry,1)
+          old3="try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'bill_auto_read_success',bill_parse_method:result.method,bill_parse_confidence:result.confidence,annual_kwh:Math.round(result.annualKwh||0)});}catch(e){}"
+          new3="trackReader('bill_auto_read_success',{bill_parse_method:result.method,bill_parse_confidence:result.confidence,annual_kwh:Math.round(result.annualKwh||0)});"
+          if old3 not in s: raise SystemExit('success telemetry anchor missing')
+          s=s.replace(old3,new3,1)
+          old4="try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'bill_auto_read_fallback'});}catch(e){}"
+          new4="trackReader('bill_auto_read_fallback');"
+          if old4 not in s: raise SystemExit('fallback telemetry anchor missing')
+          s=s.replace(old4,new4,1)
+          for token in ['cdnjs.cloudflare.com','cdn.jsdelivr.net/npm/tesseract.js@5.1.1']:
+              if token in s: raise SystemExit('external OCR runtime remains: '+token)
+          p.write_text(s,encoding='utf-8')
+
+          q=Path('netlify.toml')
+          t=q.read_text(encoding='utf-8')
+          header='''\n[[headers]]\n  for = "/vendor/*"\n  [headers.values]\n    Cache-Control = "public, max-age=31536000, immutable"\n'''
+          if 'for = "/vendor/*"' not in t:
+              anchor='[[headers]]\n  for = "/*.html"'
+              if anchor not in t: raise SystemExit('netlify header anchor missing')
+              t=t.replace(anchor,header+'\n'+anchor,1)
+          q.write_text(t,encoding='utf-8')
+          PY
+          grep -q "PDFJS_URL='/vendor/pdfjs/3.11.174/pdf.min.js'" bill-reader.js
+          grep -q "TESSERACT_CORE_PATH='/vendor/tesseract-core/5.0.0'" bill-reader.js
+          grep -q "TESSERACT_LANG_PATH='/vendor/tessdata/4.0.0'" bill-reader.js
+          grep -q "window.ECON_TRACK" bill-reader.js
+          ! grep -q 'cdnjs.cloudflare.com' bill-reader.js
+          git diff --check
+
+      - name: Commit self-hosted runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add vendor bill-reader.js netlify.toml
+          git rm -f .github/workflows/vendor-ocr-runtime.yml
+          git diff --cached --check
+          git commit -m 'Self-host PDF and OCR runtime assets'
+          git push origin HEAD:main
