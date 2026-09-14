@@ -1,4 +1,5 @@
 import { getStore, getDeployStore } from "@netlify/blobs";
+import { getDatabase } from "@netlify/database";
 
 const MAX_CHUNK = 3_400_000;
 function safeId(v: string | null): string { return String(v || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 100); }
@@ -21,6 +22,10 @@ export default async (req: Request, context: any) => {
   if (!sessionId || !documentId || !Number.isInteger(index) || !Number.isInteger(count) || index < 0 || count < 1 || index >= count || count > 16) {
     return new Response("Invalid chunk metadata", { status: 400 });
   }
+
+  const db = getDatabase();
+  const lead = await db.sql`SELECT session_id FROM leads WHERE session_id = ${sessionId} LIMIT 1`;
+  if (!lead.length) return new Response("Unknown session", { status: 409 });
 
   const body = await req.arrayBuffer();
   if (!body.byteLength || body.byteLength > MAX_CHUNK) return new Response("Invalid chunk", { status: 413 });
