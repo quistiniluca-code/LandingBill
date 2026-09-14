@@ -1,0 +1,44 @@
+name: Export landing source
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/export-landing-code.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build export bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p export
+          rsync -a ./ export/ \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'node_modules'
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('export/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('ECON | Sconto in fattura? Meglio in bolletta.', 'ECON | Sconto in fattura? Sì. Ma in bolletta.')
+          s = s.replace('https://verifica.econ-apex.com/', 'https://ottieni-sconto.econ-apex.com/')
+          s = s.replace('MEGLIO IN BOLLETTA.', 'SÌ. MA IN BOLLETTA.')
+          p.write_text(s, encoding='utf-8')
+          PY
+          (cd export && zip -qr ../ECON-landing-completa.zip .)
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ECON-landing-completa
+          path: ECON-landing-completa.zip
+          retention-days: 7
