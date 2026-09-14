@@ -1,0 +1,43 @@
+name: Activate durable data layer
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/activate-durable-data-layer.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  activate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Patch landing source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/activate_durable_data_layer.py
+          grep -q "window.ECON_DATA.saveIntake(d)" index.html
+          grep -q "window.ECON_DATA.uploadBill(f)" index.html
+          grep -q "window.ECON_DATA.saveOutcome(pairs)" index.html
+          grep -q '/data-layer.js?v=20260914-1' index.html
+          grep -q '@netlify/database' package.json
+
+      - name: Commit activation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git rm -f .github/scripts/activate_durable_data_layer.py .github/workflows/activate-durable-data-layer.yml
+          git commit -m 'Activate durable lead and document storage'
+          git push origin HEAD:main
