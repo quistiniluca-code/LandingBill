@@ -1,4 +1,4 @@
-# one-shot workflow; removes itself after successful materialization
+# one-shot workflow; removes itself after successful materialization (corrected anchor)
 name: Materialize production source
 
 on:
