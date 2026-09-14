@@ -6,7 +6,7 @@
 (function(){
 'use strict';
 
-const VERSION='bill-reader-2.1.0-selfhosted';
+const VERSION='bill-reader-2.1.1-selfhosted';
 const PDFJS_URL='/vendor/pdfjs/3.11.174/pdf.min.js';
 const PDFJS_WORKER_URL='/vendor/pdfjs/3.11.174/pdf.worker.min.js';
 const TESSERACT_URL='/vendor/tesseract/5.1.1/tesseract.min.js';
@@ -119,7 +119,7 @@ function applyParsedResult(result){
   const edit=document.createElement('button');edit.type='button';edit.className='billReaderEdit';edit.textContent='Controlla o correggi i dati';
   edit.addEventListener('click',()=>{showManual(true);const note=$('#billAccuracyNote');if(note)note.textContent='I valori sono stati precompilati dalla bolletta. Modificali solo se non corrispondono ai dati del documento.';});
   actions.appendChild(edit);
-  const privacy=document.createElement('span');privacy.className='billReaderPrivacy';privacy.textContent=readerPanel.dataset.localOnly==='1'?'Lettura locale · file non allegato':'Lettura automatica nel browser';actions.appendChild(privacy);
+  const privacy=document.createElement('span');privacy.className='billReaderPrivacy';privacy.textContent='Lettura automatica nel browser';actions.appendChild(privacy);
   readerPanel.dataset.result=JSON.stringify({version:VERSION,annualKwh:result.annualKwh||0,annualSpend:result.annualSpend||0,confidence:result.confidence,method:result.method});
   trackReader('bill_auto_read_success',{bill_parse_method:result.method,bill_parse_confidence:result.confidence,annual_kwh:Math.round(result.annualKwh||0)});
 }
@@ -228,25 +228,24 @@ function parseBillText(rawText){
     ];
     const periodKwh=collect(periodKwhPatterns,text,20,300000)[0]||0;
     if(periodKwh){annualKwh=periodKwh*365/periodDays;kwhMethod='ANNUALIZED_PERIOD_KWH';kwhConfidence=periodDays>=25&&periodDays<=100?.80:.72}
-    else{
-      const bandSum=sumBandsNearContext(text,/(?:consumo|consumi).{0,30}(?:periodo|fatturat)/i);
-      if(inRange(bandSum,20,300000)){annualKwh=bandSum*365/periodDays;kwhMethod='ANNUALIZED_PERIOD_F1_F2_F3';kwhConfidence=.76}
-    }
   }
-
   if(!annualSpend&&periodDays){
-    const amountPatterns=[
-      /(?:totale\s+da\s+pagare|importo\s+(?:totale\s+)?da\s+pagare|totale\s+bolletta|totale\s+documento)[^€0-9]{0,55}(?:€\s*)?([0-9][0-9\s.,]{1,18})\s*(?:€|euro)?/ig,
-      /(?:€\s*)([0-9][0-9\s.,]{1,18})[^.]{0,35}(?:totale\s+da\s+pagare)/ig
+    const totalPatterns=[
+      /(?:totale\s+(?:da\s+pagare|fattura|bolletta)|importo\s+(?:da\s+pagare|totale))[^€0-9]{0,40}(?:€\s*)?([0-9][0-9\s.,]{1,18})/ig,
+      /(?:€\s*)([0-9][0-9\s.,]{1,18})\s*(?:totale\s+da\s+pagare)/ig
     ];
-    const billAmount=collect(amountPatterns,text,5,50000)[0]||0;
-    if(billAmount){annualSpend=billAmount*365/periodDays;spendMethod='ANNUALIZED_BILL_AMOUNT';spendConfidence=periodDays>=25&&periodDays<=100?.76:.68}
+    const billed=collect(totalPatterns,text,5,30000)[0]||0;
+    if(billed){annualSpend=billed*365/periodDays;spendMethod='ANNUALIZED_BILL_TOTAL';spendConfidence=periodDays>=25&&periodDays<=100?.72:.65}
   }
 
-  if(annualKwh)annualKwh=Math.round(annualKwh);
-  if(annualSpend)annualSpend=Math.round(annualSpend*100)/100;
+  if(!annualKwh){
+    const labeled=collect([/(?:consumo|energia\s+(?:attiva\s+)?prelevata|energia\s+fatturata)[^0-9]{0,70}([0-9][0-9\s.,]{1,18})\s*kwh/ig],text,20,300000);
+    if(labeled.length===1&&periodDays){annualKwh=labeled[0]*365/periodDays;kwhMethod='ANNUALIZED_SINGLE_LABELED_KWH';kwhConfidence=.70}
+  }
+  if(!annualSpend&&annualKwh){annualSpend=annualKwh*.31;spendMethod='ESTIMATED_FROM_KWH';spendConfidence=.55}
+  if(!annualKwh&&annualSpend){annualKwh=annualSpend/.31;kwhMethod='ESTIMATED_FROM_SPEND';kwhConfidence=.50}
   const bestConfidence=Math.max(kwhConfidence,spendConfidence);
-  const usable=(inRange(annualKwh,100,500000)&&kwhConfidence>=MIN_CONFIDENCE)||(inRange(annualSpend,100,100000)&&spendConfidence>=MIN_CONFIDENCE);
+  const usable=bestConfidence>=MIN_CONFIDENCE&&(annualKwh>0||annualSpend>0);
   return{usable,annualKwh:annualKwh||0,annualSpend:annualSpend||0,periodDays:periodDays||0,confidence:bestConfidence,method:[kwhMethod,spendMethod].filter(Boolean).join('+')||'NO_RELIABLE_DATA',kwhConfidence,spendConfidence};
 }
 
@@ -321,7 +320,7 @@ billInput.addEventListener('change',()=>{
   const f=billInput.files&&billInput.files[0];if(!f)return;
   const allowed=['application/pdf','image/jpeg','image/png','image/webp'];
   if(!allowed.includes(f.type)||f.size>20*1024*1024)return;
-  readerPanel.dataset.localOnly=f.size>7.5*1024*1024?'1':'0';
+  readerPanel.dataset.localOnly='0';
   handleFile(f);
 });
 
