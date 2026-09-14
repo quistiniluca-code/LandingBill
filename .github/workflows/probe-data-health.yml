@@ -1,0 +1,37 @@
+name: Probe production data health
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/probe-data-health.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Check production database schema
+        shell: bash
+        run: |
+          set -euo pipefail
+          sleep 8
+          body=$(curl --fail-with-body --retry 4 --retry-delay 3 -sS https://ottieni-sconto.netlify.app/api/data-health)
+          echo "$body"
+          echo "$body" | grep -q '"schema_ready":true'
+      - name: Remove probe workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm -f .github/workflows/probe-data-health.yml
+          git commit -m 'Remove data health probe workflow'
+          git push origin HEAD:main
